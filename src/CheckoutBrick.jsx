@@ -2,12 +2,12 @@ import React from 'react';
 import { initMercadoPago, Payment } from '@mercadopago/sdk-react';
 
 // REEMPLAZÁ CON TU PUBLIC KEY DE PRUEBA (Empieza con TEST-)
-initMercadoPago('TEST-2d6514c2-7776-4544-ac36-99f2c73d55e2', { locale: 'es-AR' });
+initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY, { locale: 'es-AR' });
 
 const CheckoutBrick = ({ precioAPagar, onPaymentSuccess }) => {
   // Configuración inicial del monto
   const initialization = {
-    amount: precioAPagar, 
+    amount: precioAPagar,
   };
 
   // Qué medios de pago queremos mostrar

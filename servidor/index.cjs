@@ -1,3 +1,4 @@
+require('dotenv').config();
 /* eslint-env node */
 const express = require("express");
 const cors = require("cors");
@@ -10,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // REEMPLAZÁ CON TU ACCESS TOKEN DE PRUEBA (El que usábamos antes)
-const client = new MercadoPagoConfig({ accessToken: 'TEST-6187011614622084-030621-0d4b10b3fea3ff5e42b981aefc37c907-1146546771' });
+const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
 
 // Esta es la nueva ruta que procesará la tarjeta
 app.post("/process_payment", async (req, res) => {
@@ -19,7 +20,7 @@ app.post("/process_payment", async (req, res) => {
 
   try {
     const payment = new Payment(client);
-    
+
     // Armamos el paquete con los datos exactos que nos manda el formulario de React
     const body = {
       transaction_amount: req.body.transaction_amount,
@@ -39,9 +40,9 @@ app.post("/process_payment", async (req, res) => {
 
     console.log("⏳ Procesando pago...");
     const result = await payment.create({ body });
-    
+
     console.log(`✅ ¡Pago procesado! Estado: ${result.status}`);
-    
+
     // Le devolvemos a React cómo salió el pago
     res.json({
       status: result.status,
