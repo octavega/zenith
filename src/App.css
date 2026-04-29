@@ -1,0 +1,3504 @@
+/* App.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+  padding: 20px;
+}
+
+.auth-card {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.auth-card h2 {
+  color: #2c3e50;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.auth-card p {
+  color: #7f8c8d;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="number"],
+.form-group input[type="tel"],
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.rol-group {
+  margin-top: 10px;
+}
+
+.radio-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.radio-inputs label {
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #2c3e50;
+}
+
+.btn-submit {
+  margin-top: 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #2980b9;
+}
+
+/* Estilos para el botón de alternar vistas */
+.toggle-view {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #3498db;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.btn-link:hover {
+  color: #2980b9;
+}
+
+/* Responsividad para móviles */
+@media (max-width: 480px) {
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+}
+
+/* Estilos adicionales para el Perfil (RF3) */
+.perfil-card {
+  max-width: 600px;
+}
+
+.foto-perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.foto-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px dashed #bdc3c7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #ecf0f1;
+}
+
+.foto-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foto-placeholder {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-upload {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #bdc3c7;
+  transition: all 0.3s ease;
+}
+
+.btn-upload:hover {
+  background-color: #bdc3c7;
+}
+
+input:disabled {
+  background-color: #f2f4f4;
+  color: #95a5a6;
+  cursor: not-allowed;
+}
+/* Botón de eliminación (RF4) */
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+/* Estilos para Registro de Propietario (RF7) */
+.btn-propietario {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.btn-propietario:hover {
+  background-color: #219653;
+}
+
+.btn-propietario-submit {
+  background-color: #2c3e50;
+}
+
+.btn-propietario-submit:hover {
+  background-color: #1a252f;
+}
+
+.file-group {
+  background-color: #f8f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px dashed #bdc3c7;
+}
+
+.file-input {
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+/* Estilos para Publicación de Inmuebles (RF8) */
+.section-title {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 5px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  background-color: #f8f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ecf0f1;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #34495e;
+  cursor: pointer;
+}
+
+.condiciones-box {
+  background-color: #f0f8ff;
+  border-left: 4px solid #3498db;
+  padding: 15px;
+  border-radius: 0 5px 5px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hint-text {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 4px;
+}
+
+.private-file {
+  background-color: #fdf2e9;
+  border-color: #e67e22;
+}
+
+/* Estilos para el Panel y Tarjetas de Propiedades (RF10 a RF12) */
+.propiedades-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.propiedad-card {
+  border: 1px solid #e0e6ed;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.propiedad-card.inactiva {
+  background-color: #f8f9fa;
+  border-color: #dcdde1;
+  opacity: 0.8;
+}
+
+.badge-inactivo {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #e74c3c;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.prop-titulo {
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.prop-ubicacion {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.prop-detalles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.prop-precio {
+  font-size: 0.95rem;
+  color: #27ae60;
+  margin-bottom: 10px;
+}
+
+.prop-servicios {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 10px;
+}
+
+.prop-acciones {
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 15px;
+}
+
+.btn-editar, .btn-baja {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-editar { background-color: #f1c40f; color: #333; }
+.btn-editar:hover { background-color: #f39c12; }
+.btn-baja { background-color: #e74c3c; color: white; }
+.btn-baja:hover { background-color: #c0392b; }
+
+
+
+
+/* Estilos para el Buscador Principal (RF14 y RF15) */
+.buscador-container {
+  min-height: 100vh;
+  background-color: #f4f7f6;
+  padding: 0;
+}
+
+.buscador-header {
+  background-color: #ffffff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-info h2 {
+  color: #3498db;
+  margin: 0;
+}
+
+.header-acciones {
+  display: flex;
+  align-items: center;
+}
+
+.buscador-layout {
+  display: flex;
+  gap: 20px;
+  padding: 20px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+.filtros-sidebar {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.filtros-sidebar h3 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 10px;
+}
+
+.filtros-booleanos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+  border-top: 2px solid #ecf0f1;
+  padding-top: 15px;
+}
+
+.filtros-booleanos label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #34495e;
+  cursor: pointer;
+}
+
+.feed-propiedades {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Responsividad para la vista del buscador */
+@media (max-width: 768px) {
+  .buscador-layout {
+    flex-direction: column;
+  }
+  .filtros-sidebar {
+    width: 100%;
+  }
+  .buscador-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+
+/* Estilos para la Vista de Detalle de Propiedad */
+.detalle-layout {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+.detalle-main {
+  flex: 2;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.detalle-sidebar {
+  flex: 1;
+  position: sticky;
+  top: 90px;
+}
+
+.detalle-imagenes {
+  width: 100%;
+  height: 400px;
+  background-color: #ecf0f1;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+  color: #7f8c8d;
+}
+
+.imagen-placeholder {
+  text-align: center;
+}
+
+.detalle-titulo {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.detalle-seccion {
+  margin-top: 30px;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 20px;
+}
+
+.detalle-seccion h3 {
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.caracteristicas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.detalle-descripcion {
+  line-height: 1.6;
+  color: #34495e;
+  white-space: pre-wrap;
+}
+
+.servicios-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag-servicio {
+  background-color: #f0f8ff;
+  color: #2980b9;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #d6eaf8;
+}
+
+/* Tarjeta derecha de compra/contacto */
+.compra-card {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: 1px solid #e0e6ed;
+}
+
+.operacion-tag {
+  display: inline-block;
+  background-color: #2c3e50;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.precio-destacado {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.precio-sub {
+  font-size: 1rem;
+  font-weight: normal;
+  color: #7f8c8d;
+}
+
+.info-extra-precio {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  color: #34495e;
+}
+.info-extra-precio p {
+  margin-bottom: 5px;
+}
+
+.info-extra-precio p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .detalle-layout {
+    flex-direction: column;
+  }
+  .detalle-sidebar {
+    width: 100%;
+    position: static;
+  }
+}
+/* Estilos para Fotos en Portada (Feed) */
+.prop-portada {
+  margin: -20px -20px 15px -20px; /* Expande la imagen a los bordes de la card */
+  height: 220px;
+  background-color: #ecf0f1;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.img-portada {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.propiedad-card:hover .img-portada {
+  transform: scale(1.05); /* Efecto zoom sutil al pasar el mouse */
+}
+
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  background-color: #f4f7f6;
+  color: #bdc3c7;
+}
+
+/* Estilos para Galería en Detalle */
+.galeria-fotos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.foto-principal img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.fotos-secundarias {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.fotos-secundarias img {
+  height: 120px;
+  min-width: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ecf0f1;
+}
+
+/* Estilos para el Chat Interno (RF17) */
+.chat-layout {
+  display: flex;
+  height: calc(100vh - 80px);
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  border-left: 1px solid #e0e6ed;
+  border-right: 1px solid #e0e6ed;
+}
+
+.chat-sidebar {
+  width: 320px;
+  border-right: 1px solid #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+}
+
+.chat-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid #ecf0f1;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: background-color 0.2s;
+}
+
+.chat-item:hover { background-color: #f1f2f6; }
+.chat-item.activo { background-color: #e0f7fa; border-left: 4px solid #3498db; }
+
+.chat-contacto { font-size: 0.8rem; color: #7f8c8d; }
+
+.chat-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.chat-placeholder {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #bdc3c7;
+}
+
+.chat-mensajes {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #f4f7f6;
+}
+
+.mensaje-burbuja {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.mensaje-burbuja.mio {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+  border-bottom-right-radius: 0;
+}
+
+.mensaje-burbuja.otro {
+  align-self: flex-start;
+  background-color: #ffffff;
+  border: 1px solid #e0e6ed;
+  border-bottom-left-radius: 0;
+}
+
+.mensaje-hora {
+  font-size: 0.7rem;
+  color: #7f8c8d;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.chat-input-area {
+  padding: 15px 20px;
+  background-color: #ffffff;
+  border-top: 1px solid #ecf0f1;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input-area input {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: 1px solid #bdc3c7;
+  border-radius: 20px;
+  outline: none;
+}
+.chat-input-area input:focus { border-color: #3498db; }
+
+
+/* Estilos para el Modal de Pagos (RF19 y RF20) */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.pago-instrucciones {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e6ed;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 15px 0;
+}
+
+.cbu-box {
+  background-color: #e8f8f5;
+  border-left: 4px solid #1abc9c;
+  padding: 10px;
+  margin-top: 10px;
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+/* Estilos para Pagos e Historial (RF21 y RF22) */
+.desglose-pago {
+  background-color: #f4f7f6;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+  margin-bottom: 20px;
+}
+
+.historial-pagos {
+  margin-top: 20px;
+  border-top: 1px dashed #bdc3c7;
+  padding-top: 15px;
+}
+
+.tabla-pagos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.tabla-pagos th, .tabla-pagos td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.badge-estado.pendiente { color: #f39c12; font-weight: bold; }
+.badge-estado.aprobado { color: #27ae60; font-weight: bold; }
+/* Estilos para Badges de Estado (RF23 y RF24) */
+.badge-estado {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Estados de Contratos */
+.badge-estado.activo {
+  background-color: #e8f8f5;
+  color: #1abc9c;
+  border: 1px solid #1abc9c;
+}
+
+.badge-estado.finalizado {
+  background-color: #f2f4f4;
+  color: #7f8c8d;
+  border: 1px solid #bdc3c7;
+}
+
+/* Estados de Pagos */
+.badge-estado.pendiente {
+  background-color: #fef5e7;
+  color: #f39c12;
+  border: 1px solid #f39c12;
+}
+
+.badge-estado.pagado, .badge-estado.aprobado {
+  background-color: #eafaf1;
+  color: #27ae60;
+  border: 1px solid #27ae60;
+}
+
+.badge-estado.atrasado, .badge-estado.rechazado {
+  background-color: #fdedec;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+/* =========================================
+   GALERÍA DE PROPIEDADES (VISTA 8)
+   ========================================= */
+
+.galeria-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.foto-principal-caja {
+  width: 100%;
+  height: 450px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.foto-principal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Para que la foto no se recorte ni se deforme */
+}
+
+.tira-miniaturas {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.miniatura-img {
+  width: 100px;
+  height: 75px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #ccc;
+  opacity: 0.6;
+}
+
+.miniatura-img:hover {
+  opacity: 0.8;
+}
+
+.miniatura-img.activa {
+  border: 3px solid #3498db;
+  opacity: 1;
+}
+
+.galeria-vacia {
+  height: 400px;
+  background-color: #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+/* Fix para que las características no tapen las fotos */
+.detalle-seccion-separada {
+  margin-top: 40px;
+  clear: both;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+/* =========================================
+   NUEVOS ESTILOS: PORTADA, ADMIN Y NOTIFICACIONES
+   ========================================= */
+
+/* --- 1. Previsualización de Fotos --- */
+.preview-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.preview-item {
+  position: relative;
+  min-width: 120px;
+  height: 90px;
+}
+
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #bdc3c7;
+}
+
+.preview-img.portada {
+  border: 3px solid #27ae60;
+}
+
+.badge-portada {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background-color: #27ae60;
+  color: white;
+  padding: 3px 6px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.btn-hacer-portada {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 3px 6px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-hacer-portada:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* --- 2. Tabla del Administrador --- */
+.acciones-admin-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btn-ver-detalles {
+  background-color: #3498db;
+  margin: 0;
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.admin-botones-accion {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-activar {
+  background-color: #27ae60;
+  margin: 0;
+  padding: 5px 10px;
+  flex: 1;
+}
+
+.btn-rechazar {
+  background-color: #f39c12;
+  margin: 0;
+  padding: 5px 10px;
+  flex: 1;
+}
+
+/* --- 3. Vista de Notificaciones --- */
+.vista-espaciada {
+  padding: 40px 20px;
+}
+
+.notificaciones-card {
+  max-width: 800px;
+  margin: 20px auto;
+  width: 100%;
+}
+
+.notificaciones-vacias {
+  text-align: center;
+  color: #7f8c8d;
+}
+
+.notificaciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.notificacion-item {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #f39c12;
+  border-radius: 4px;
+}
+
+.notificacion-texto {
+  margin: 0;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.notificacion-fecha {
+  color: #7f8c8d;
+  display: block;
+  margin-top: 10px;
+}
+
+/* =========================================
+   ESTILOS PARA EDICIÓN DE ARCHIVOS Y FOTOS VIEJAS
+   ========================================= */
+
+.seccion-edicion-archivos {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #bdc3c7;
+}
+
+.hint-text-destacado {
+  font-size: 0.85rem;
+  color: #34495e;
+  font-weight: 600;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.btn-eliminar-foto {
+  background-color: #e74c3c !important;
+  right: 5px;
+  left: auto !important; /* Lo mandamos a la derecha para que no pise al otro botón */
+}
+
+.btn-eliminar-foto:hover {
+  background-color: #c0392b !important;
+}
+
+.btn-subir-capa {
+  bottom: 5px;
+  max-width: 60%;
+}
+
+.doc-actual-box {
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #bdc3c7;
+  margin-bottom: 10px;
+}
+
+.doc-actual-box p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+
+.doc-actual-box a {
+  color: #2980b9;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.doc-actual-box a:hover {
+  color: #1a5276;
+}
+
+/* =========================================
+   ESTILOS PARA NOTA DE EXPENSAS (CONTRATOS)
+   ========================================= */
+
+.nota-expensas-box {
+  background-color: #f8f9fa;
+  border-left: 4px solid #3498db;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 0 5px 5px 0;
+  font-size: 0.85rem;
+  color: #2c3e50;
+  line-height: 1.5;
+}
+
+.nota-expensas-box h4 {
+  margin: 0 0 10px 0;
+  color: #2980b9;
+}
+
+.nota-expensas-box p {
+  margin-bottom: 8px;
+}
+
+/* Le quitamos el margen al último párrafo para que no sobre espacio abajo */
+.nota-expensas-box p:last-child {
+  margin-bottom: 0;
+}
+
+.nota-expensas-box a {
+  color: #e67e22;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nota-expensas-box a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   ESTILOS PARA VALORACIONES Y RESEÑAS
+   ========================================= */
+
+.seccion-valoraciones {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #bdc3c7;
+}
+
+.lista-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.comentario-card {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #f1c40f;
+}
+
+.comentario-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.estrellitas {
+  font-size: 0.9rem;
+}
+
+.fecha-comentario {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-left: auto; /* Empuja la fecha a la derecha */
+}
+
+.comentario-texto {
+  margin: 0;
+  font-style: italic;
+  color: #34495e;
+}
+
+.formulario-valoracion {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ecf0f1;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.formulario-valoracion h4 {
+  margin-top: 0;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.mensaje-ya-valoro {
+  background-color: #e8f8f5;
+  color: #16a085;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* =========================================
+   ESTILOS PARA NOTIFICACIONES DE MENSAJES
+   ========================================= */
+
+.burbuja-notificacion {
+  background-color: #e74c3c; /* Rojo intenso estilo alerta */
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  min-width: 18px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  
+  /* Efecto de latido (opcional pero queda genial) */
+  animation: latido 2s infinite;
+}
+
+@keyframes latido {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 5px rgba(231, 76, 60, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+/* =========================================
+   ESTILOS DE LA PÁGINA DE INICIO (LANDING)
+   ========================================= */
+
+.landing-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+.landing-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  position: sticky; 
+  top: 0; 
+  z-index: 1000;
+
+}
+
+.landing-logo {
+  font-size: 1.5rem;
+}
+
+.landing-nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.btn-nav-simple {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #34495e;
+  cursor: pointer;
+}
+
+.btn-nav-primary {
+  background-color: #85c1e9;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-nav-primary:hover {
+  background-color: #3498db;
+}
+
+/* HERO SECTION */
+.landing-hero {
+  position: relative;
+  height: 60vh;
+  /* Imagen de ciudad de fondo */
+  background-image: url('https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(127, 140, 141, 0.7); /* Capa gris semi-transparente */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+/* SERVICIOS */
+.landing-servicios {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.landing-servicios h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #1a252f;
+}
+
+.servicios-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.servicio-card {
+  background-color: #f8f9fa;
+  padding: 50px 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.servicio-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.servicio-card p {
+  color: #7f8c8d;
+  margin-bottom: 30px;
+}
+
+.btn-servicio {
+  background-color: #0088ff;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-servicio:hover {
+  background-color: #0066cc;
+}
+
+/* INFORMACIÓN (FILAS ALTERNADAS) */
+.landing-info {
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.info-row.reversa {
+  flex-direction: row-reverse;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.info-text h2 {
+  font-size: 2.5rem;
+  color: #1a252f;
+  margin-bottom: 20px;
+}
+
+.info-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #7f8c8d;
+}
+
+.info-img-container {
+  flex: 1;
+}
+
+.info-img-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Responsivo para celulares */
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 2.5rem; }
+  .info-row, .info-row.reversa { flex-direction: column; text-align: center; }
+  .landing-navbar { flex-direction: column; gap: 15px; }
+}
+/* =========================================
+   FILTRO DE DISPONIBILIDAD (FECHAS)
+   ========================================= */
+
+.filtro-disponibilidad-container {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.filtro-disponibilidad-titulo {
+  font-weight: bold;
+  color: #2980b9;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.filtro-disponibilidad-row {
+  display: flex;
+  gap: 10px;
+}
+
+.filtro-fecha-group {
+  flex: 1;
+}
+
+.filtro-fecha-label {
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filtro-fecha-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.85rem;
+  color: #2c3e50;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+.filtro-fecha-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.filtro-fecha-error {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  display: block;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+
+/* =========================================
+   ESTILOS NUEVO DASHBOARD PROPIETARIO
+   ========================================= */
+
+.dash-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e0e6ed;
+}
+
+.dash-tab {
+  background: none;
+  border: none;
+  padding: 15px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 8px 8px 0 0;
+}
+
+.dash-tab.activa {
+  background-color: #fff;
+  color: #1a252f;
+  border: 1px solid #e0e6ed;
+  border-bottom: none;
+}
+
+.dash-tab.inactiva {
+  color: #7f8c8d;
+}
+
+.dash-tab.inactiva:hover {
+  background-color: #f1f2f6;
+}
+
+.dash-contenido {
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #e0e6ed;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dash-item-prop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ecf0f1;
+  background-color: #fbfcfc;
+}
+
+.dash-item-img {
+  width: 80px;
+  height: 80px;
+  background-color: #e0e6ed;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  overflow: hidden;
+}
+
+.dash-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dash-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.dash-badge.ok { background-color: #e8f8f5; color: #27ae60; }
+.dash-badge.mal { background-color: #fadbd8; color: #c0392b; }
+.dash-badge.revisando { background-color: #fcf3cf; color: #f39c12; }
+
+.dash-item-acciones button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #7f8c8d;
+  margin-left: 15px;
+  transition: transform 0.2s;
+}
+
+.dash-item-acciones button:hover {
+  transform: scale(1.2);
+}
+
+/* =========================================
+   ESTILOS PARA RESERVAS TEMPORALES
+   ========================================= */
+
+.reserva-temporal-container {
+  margin-top: 20px;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 20px;
+}
+
+.reserva-titulo {
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.reserva-fechas-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.reserva-input-group {
+  flex: 1;
+}
+
+.reserva-input-group label {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  display: block; /* Asegura que el input baje */
+  margin-bottom: 4px;
+}
+
+.reserva-input-group input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #bdc3c7;
+}
+
+.reserva-error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  display: block;
+}
+
+.reserva-resumen {
+  background-color: #e8f8f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  border: 1px solid #a9dfbf;
+}
+
+.reserva-fila {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.reserva-descuento {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #a9dfbf;
+  color: #e67e22;
+  font-weight: bold;
+}
+
+.reserva-total {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #27ae60;
+  margin-bottom: 0;
+}
+
+/* Esta clase se activa dinámicamente si no hay descuento, para separar el total */
+.reserva-total.con-borde-top {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #a9dfbf;
+}
+
+/* Botón azul estilo Mercado Pago para las reservas */
+.btn-reservar-mp {
+  width: 100%;
+  margin-top: 20px;
+  background-color: #009ee3;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reservar-mp:hover {
+  background-color: #0084bd; /* Un azul un poco más oscuro al pasar el mouse */
+}
+
+/* =========================================
+   ESTILOS DEL MODAL DE MERCADO PAGO (RESERVAS)
+   ========================================= */
+
+/* Ajustamos el tamaño y permitimos scroll si el Brick es muy largo */
+.modal-reserva-content {
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+}
+
+/* Cabecera azul típica de MP */
+.modal-header-mp {
+  background-color: #009ee3;
+  padding: 20px;
+  border-radius: 8px 8px 0 0;
+  /* Este margen negativo compensa el padding que trae el .modal-content por defecto */
+  margin: -30px -30px 20px -30px; 
+  color: white;
+}
+
+.modal-title-mp {
+  margin: 0;
+}
+
+/* Caja gris clarito con los datos de la estadía */
+.desglose-reserva {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.desglose-reserva p {
+  margin: 5px 0;
+}
+
+.modal-total-mp {
+  margin: 20px 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+.modal-body-mp {
+  margin-top: 20px;
+}
+
+.btn-cancelar-mp {
+  color: #7f8c8d;
+  width: 100%;
+  margin-top: 15px;
+}
+
+
+/* =========================================
+   ESTILOS PARA LISTADO DE RESERVAS (MIS ALQUILERES)
+   ========================================= */
+
+.titulo-reservas {
+  margin-top: 40px;
+  border-bottom: 2px solid #e67e22; /* Naranja para diferenciar de los contratos a largo plazo */
+  padding-bottom: 10px;
+}
+
+.mensaje-vacio-reservas {
+  color: #7f8c8d;
+  text-align: center;
+}
+
+.reserva-card-item {
+  max-width: 100%;
+}
+
+.reserva-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ecf0f1;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.reserva-detalles-box {
+  background-color: #fdfefe;
+  border: 1px solid #e0e6ed;
+  margin-bottom: 15px;
+}
+
+.reserva-mensaje-cancelada {
+  background-color: #fdedec;
+  padding: 10px;
+  border-radius: 5px;
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.reserva-mensaje-finalizada {
+  background-color: #e8f8f5;
+  padding: 10px;
+  border-radius: 5px;
+  color: #27ae60;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.btn-cancelar-reserva {
+  background-color: #e74c3c;
+  width: auto;
+  padding: 8px 15px;
+  margin: 0;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancelar-reserva:hover {
+  background-color: #c0392b; /* Rojo más oscuro al pasar el mouse */
+}
+
+/* =========================================
+   ESTILOS PARA PANEL DE COBROS (PROPIETARIO)
+   ========================================= */
+
+.panel-cobros-container {
+  max-width: 1000px;
+  width: 100%;
+}
+
+.panel-cobros-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Sección de Reservas del Propietario */
+.titulo-seccion-reservas {
+  border-bottom: 2px solid #e67e22;
+  padding-bottom: 10px;
+  color: #2c3e50;
+  margin-top: 40px;
+}
+
+.hint-reservas {
+  margin-bottom: 20px;
+}
+
+.reservas-propietario-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.tarjeta-reserva-propietario {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ecf0f1;
+}
+
+.reserva-header-propietario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e67e22;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.reserva-titulo-prop {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.reserva-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+.reserva-total-verde {
+  font-size: 1.2rem;
+  color: #27ae60;
+}
+
+.reserva-estado-financiero {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #bdc3c7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.etiqueta-estado-fondo {
+  display: block;
+  margin-bottom: 5px;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+}
+
+.badge-estado-fondo {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.badge-estado-fondo.fondo-retenido {
+  background-color: #fcf3cf;
+  color: #f39c12;
+}
+
+.badge-estado-fondo.fondo-liberado {
+  background-color: #e8f8f5;
+  color: #27ae60;
+}
+
+.badge-estado-fondo.fondo-reembolsado {
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+.reserva-penalidad-info {
+  color: #c0392b;
+  font-size: 0.9rem;
+  text-align: right;
+  background-color: #fdedec;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.btn-comprobante-reserva {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  color: #2980b9;
+  font-weight: bold;
+  border: 1px solid #3498db;
+  border-radius: 5px;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-comprobante-reserva:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* =========================================
+   ESTILOS DEL CALENDARIO DE DISPONIBILIDAD
+   ========================================= */
+
+.calendario-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #ecf0f1;
+}
+
+.calendario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendario-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #3498db;
+  font-weight: bold;
+}
+
+.calendario-mes {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  text-transform: capitalize;
+}
+
+.calendario-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.calendario-dia-semana {
+  font-weight: bold;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.calendario-celda {
+  padding: 8px 5px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.calendario-celda.vacia {
+  background-color: transparent;
+  color: transparent;
+  border: none;
+}
+
+.calendario-celda.disponible {
+  background-color: #e8f8f5;
+  color: #27ae60;
+  font-weight: bold;
+  border: 1px solid #a9dfbf;
+  text-decoration: none;
+}
+
+.calendario-celda.ocupada {
+  background-color: #fadbd8;
+  color: #c0392b;
+  font-weight: bold;
+  border: 1px solid #f5b7b1;
+  text-decoration: line-through;
+}
+
+.calendario-leyenda {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+}
+
+.leyenda-item.disponible {
+  color: #27ae60;
+}
+
+.leyenda-item.ocupada {
+  color: #c0392b;
+}
+
+.leyenda-item.disponible .leyenda-color {
+  width: 12px;
+  height: 12px;
+  background-color: #e8f8f5;
+  border: 1px solid #a9dfbf;
+  border-radius: 2px;
+}
+
+.leyenda-item.ocupada .leyenda-color {
+  width: 12px;
+  height: 12px;
+  background-color: #fadbd8;
+  border: 1px solid #f5b7b1;
+  border-radius: 2px;
+}
+
+/* =========================================
+   NUEVOS ESTILOS PARA PANEL DE COBROS (CANCELACIONES)
+   ========================================= */
+
+.reserva-estado-fila {
+  width: 100%;
+}
+
+.etiqueta-estado-gris {
+  color: #7f8c8d;
+}
+
+.mensaje-aclaratorio-gris {
+  margin: 5px 0 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.reserva-fila-distribuida {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Modificadores para la info de penalidad */
+.reserva-penalidad-info.info-positiva {
+  background-color: #e8f8f5;
+  color: #27ae60;
+  border: 1px solid #a9dfbf;
+  text-align: left; /* Alineación normal si es plata a favor */
+}
+
+.mensaje-candado-retenido {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+
+
+/* =========================================
+   ESTILOS PARA DASHBOARD: PESTAÑA CONTRATOS
+   ========================================= */
+
+.dashboard-panel-bg {
+  background-color: #f8f9fa;
+}
+
+.text-blue-bold {
+  font-weight: bold;
+  color: #3498db;
+}
+
+.dashboard-panel-wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.dashboard-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-panel-title {
+  font-size: 2rem;
+  color: #1a252f;
+  margin: 0;
+}
+
+/* El botón celeste institucional de Zenith */
+.btn-crear-contrato-dashboard {
+  background-color: #3498db;
+  margin: 0;
+  width: auto;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+  transition: background-color 0.3s;
+}
+
+.btn-crear-contrato-dashboard:hover {
+  background-color: #2980b9;
+}
+
+.dash-contenido-contratos {
+  padding-bottom: 40px;
+}
+
+.hint-margen-amplio {
+  margin-bottom: 30px;
+}
+
+.titulo-seccion-contratos {
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  color: #2c3e50;
+  margin-top: 10px;
+}
+
+.tarjeta-contrato-dashboard {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #ecf0f1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.tarjeta-contrato-titulo {
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 10px;
+  color: #2c3e50;
+  margin-top: 0;
+}
+
+.tarjeta-contrato-info {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  color: #7f8c8d;
+}
+
+.tarjeta-contrato-subtitulo {
+  margin-top: 20px;
+  color: #34495e;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+.tabla-pagos-limpia {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #fff;
+}
+
+.tabla-pagos-limpia thead tr {
+  background-color: #f8f9fa;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.tabla-pagos-limpia th {
+  padding: 12px;
+  border-bottom: 2px solid #bdc3c7;
+}
+
+.tabla-pagos-limpia tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-celda-concepto {
+  padding: 12px;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.tabla-celda-fecha {
+  padding: 12px;
+  color: #34495e;
+}
+
+.tabla-celda-fecha.texto-vencido {
+  color: #c0392b;
+}
+
+.tabla-celda-monto {
+  padding: 12px;
+  font-weight: bold;
+}
+
+.tabla-celda-detalle {
+  padding: 12px;
+  font-size: 0.9rem;
+}
+
+.detalle-pago-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.texto-acreditacion {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.texto-esperando-pago {
+  color: #bdc3c7;
+  font-style: italic;
+}
+
+.btn-descarga-chico {
+  padding: 0;
+  font-size: 0.85rem;
+  color: #2980b9;
+  text-align: left;
+  font-weight: bold;
+}
+
+.badge-estado-pago {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.estado-pagado {
+  background-color: #e8f8f5;
+  color: #27ae60;
+}
+
+.estado-vencido {
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+.estado-en-revisión, .estado-pendiente {
+  background-color: #ebf5fb;
+  color: #2980b9;
+}
+
+/* Modulo de Problemas en el Dashboard */
+.panel-problemas-dashboard {
+  margin-top: 25px;
+  background-color: #fdfaeb;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #f1c40f;
+}
+
+.panel-problemas-titulo {
+  color: #d35400;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.problema-item-card {
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f8c471;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.problema-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.problema-item-texto {
+  margin: 0 0 5px 0;
+}
+
+.problema-item-detalle {
+  margin: 0 0 10px 0;
+}
+
+.badge-problema {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.badge-resuelto {
+  background-color: #e8f8f5;
+  color: #27ae60;
+}
+
+.badge-pendiente {
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+.problema-item-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  border-top: 1px dashed #f1c40f;
+  padding-top: 10px;
+}
+
+.btn-problema-chat {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  margin: 0;
+  background-color: #3498db;
+  width: auto;
+}
+
+.btn-problema-resolver {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  margin: 0;
+  background-color: #27ae60;
+  width: auto;
+}
+
+/* Reservas Dashboard utilidades extras */
+.mt-40 { margin-top: 40px; }
+.mb-20 { margin-bottom: 20px; }
+
+.reserva-bg-blanco {
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.reserva-bg-gris {
+  background-color: #f8f9fa;
+}
+
+/* =========================================
+   HEADER MODERNO PARA DASHBOARD PROPIETARIO
+   ========================================= */
+.header-dashboard-moderno {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.header-logo h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #3498db; /* Celeste Institucional Zenith */
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.header-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-greeting {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-right: 15px;
+  font-size: 0.95rem;
+  border-right: 2px solid #ecf0f1;
+  padding-right: 25px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: #7f8c8d;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-btn:hover {
+  background-color: #f4f6f7;
+  color: #3498db; /* Se pintan de celeste al pasar el mouse */
+}
+
+/* Notificaciones */
+.btn-notificaciones {
+  position: relative;
+}
+
+.badge-notificacion {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  position: absolute;
+  top: -2px;
+  right: -5px;
+  box-shadow: 0 2px 4px rgba(231, 76, 60, 0.4);
+}
+
+/* Botón Salir destacado */
+.btn-salir {
+  color: #e74c3c;
+  margin-left: 10px;
+}
+
+.btn-salir:hover {
+  background-color: #fdedec;
+  color: #c0392b;
+}
+/* Clase para resaltar el botón de la sección en la que estamos ubicados */
+.nav-btn-active {
+  background-color: #eaf2f8; /* Fondo celeste súper clarito */
+  color: #3498db; /* Letra celeste institucional */
+  font-weight: 800;
+  box-shadow: inset 0 -3px 0 #3498db; /* Una liniecita sutil abajo para marcar presencia */
+}
+.header-greeting {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-right: 10px;      /* Reducido */
+  font-size: 0.95rem;
+  border-right: 2px solid #ecf0f1;
+  padding-right: 15px;     /* Reducido */
+}
+
+/* =========================================
+   ESTILOS LIMPIOS PARA VISTA 11 (MIS ALQUILERES)
+   ========================================= */
+
+.mis-alquileres-wrapper {
+  width: 100%;
+}
+
+.full-width-card {
+  max-width: 100% !important;
+}
+
+.titulo-seccion-alquileres {
+  font-size: 1.8rem;
+  color: #1a252f;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 10px;
+}
+
+.titulo-sin-margen {
+  margin: 0;
+}
+
+.btn-peligro-chico {
+  background-color: #e74c3c;
+  width: auto;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.subtitulo-plan-pagos {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+  margin-top: 20px;
+}
+
+.texto-cbu-chico {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.btn-pagar-chico {
+  background-color: #27ae60;
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  width: auto;
+}
+
+.texto-procesando {
+  color: #f39c12;
+  font-size: 0.9rem;
+}
+
+.columna-gap-10 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-descarga-reembolso {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #2980b9;
+  border: 1px solid #3498db;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-descarga-reembolso:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Modales */
+.modal-pago-mp {
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.header-mp-azul {
+  background-color: #009ee3; /* Color Mercado Pago */
+  padding: 20px;
+  border-radius: 8px 8px 0 0;
+  margin: -30px -30px 20px -30px;
+  color: white;
+}
+
+.desglose-gris {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.texto-error {
+  color: #e74c3c;
+}
+
+.total-mp-destacado {
+  margin: 20px 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.btn-cancelar-mp-gris {
+  color: #7f8c8d;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.titulo-problema-rojo {
+  color: #e74c3c;
+  margin-top: 0;
+}
+
+.textarea-reporte {
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #bdc3c7;
+  font-family: inherit;
+}
+
+.botones-reporte-flex {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-enviar-reporte {
+  flex: 1;
+  background-color: #e74c3c;
+}
+
+.btn-cancelar-reporte {
+  flex: 1;
+  background-color: #95a5a6;
+}
+
+
+/* =========================================
+   SISTEMA DE BOTONES SECUNDARIOS Y NAVEGACIÓN
+   ========================================= */
+
+/* Botón Volver Atrás (Minimalista) */
+.btn-volver-limpio {
+  background: transparent;
+  border: none;
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.btn-volver-limpio:hover {
+  color: #3498db;
+}
+
+.margen-volver {
+  margin-bottom: 20px;
+}
+
+/* Botón Cancelar (Formularios) */
+.btn-cancelar-accion {
+  background-color: #f8f9fa;
+  color: #7f8c8d;
+  border: 1px solid #bdc3c7;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto;
+  text-align: center;
+}
+
+.btn-cancelar-accion:hover {
+  background-color: #e5e7e9;
+  color: #2c3e50;
+  border-color: #95a5a6;
+}
+
+/* Botón Cerrar Sesión */
+.btn-cerrar-sesion-perfil {
+  background-color: transparent;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto;
+  text-align: center;
+}
+
+.btn-cerrar-sesion-perfil:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Contenedores para alinear botones en formularios */
+.form-acciones-flex {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  align-items: center;
+}
+
+.perfil-acciones-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-top: 30px;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 20px;
+}
+
+
+
+/* =========================================
+   ESTILOS PERFIL: LAYOUT VERTICAL
+   ========================================= */
+
+.perfil-nav-top {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.perfil-acciones-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+}
+
+/* Para asegurar que los botones ocupen todo el ancho */
+.btn-full {
+  width: 100%;
+  margin: 0 !important;
+}
+/* =========================================
+   FILTROS SIDEBAR MODERNOS
+   ========================================= */
+
+.filter-panel {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e0e6ed;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  height: fit-content;
+}
+
+.filter-title {
+  margin: 0 0 20px 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.filter-group {
+  margin-bottom: 18px;
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5d6d7e;
+  margin-bottom: 8px;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d8e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box; /* Importante para que el padding no desborde */
+}
+
+.filter-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.filtro-fecha-error {
+  display: block;
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+/* Checkboxes modernos */
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #34495e;
+  cursor: pointer;
+}
+
+.checkbox-item input {
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* =========================================
+   FILTROS: DISEÑO PROFESIONAL
+   ========================================= */
+
+.filter-panel {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.filter-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 6px;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.9rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  background-color: #f7fafc;
+  color: #2d3748;
+  transition: all 0.2s;
+}
+
+.filter-input:focus {
+  border-color: #3182ce;
+  background-color: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.filter-row {
+  display: flex;
+  gap: 10px;
+}
+
+.filtro-fecha-error {
+  display: block;
+  color: #e53e3e;
+  font-size: 0.75rem;
+  margin-top: 5px;
+}
+
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #4a5568;
+  cursor: pointer;
+}
+
+.checkbox-item input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Ajuste de color para el calendario */
+.react-datepicker__header {
+  background-color: #f7fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: #3182ce !important;
+  color: white !important;
+  border-radius: 4px;
+}
+
+.react-datepicker__day:hover {
+  background-color: #e2e8f0 !important;
+}
+
+.react-datepicker {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1) !important;
+}
+
+/* =========================================
+   ESTILOS PARA FORMULARIOS (CONTRATOS/INMUEBLES)
+   ========================================= */
+
+.form-container-padded {
+  padding: 40px 20px;
+}
+
+.auth-card-large {
+  max-width: 700px;
+  width: 100%;
+}
+
+.datepicker-wrapper-full {
+  width: 100%;
+}
+
+.datepicker-sublabel {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.btn-success-flex {
+  background-color: #27ae60 !important;
+  margin: 0 !important;
+  flex: 1;
+  color: white;
+  border: none;
+}
+
+.btn-success-flex:hover {
+  background-color: #219653 !important;
+}
+
+/* =========================================
+   AJUSTE PERFECTO PARA FOTOS DE GALERÍA
+   ========================================= */
+
+/* Esta regla busca las imágenes dentro de la columna principal del detalle */
+.detalle-main img {
+  width: 100%;
+  height: 100%;
+  max-height: 450px; /* Le ponemos un tope para que no quede gigante en pantallas grandes */
+  object-fit: cover; /* <--- LA MAGIA: Llenar el cuadro sin deformar ni dejar bordes blancos */
+  object-position: center; /* Centra el recorte para que siempre se vea el medio de la foto */
+  border-radius: 8px; /* Un borde sutilmente redondeado para que quede más moderno */
+  display: block;
+}
+
+/* Si tu componente GaleriaInmueble usa miniaturas abajo, aseguramos que también se vean bien */
+.galeria-miniaturas img {
+  width: 100%;
+  height: 80px; /* Altura fija para las fotitos de abajo */
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* =========================================
+   TARJETAS DE PROPIEDADES (MODERNAS)
+   ========================================= */
+
+.card-inmueble {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e6ed;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-inmueble:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.card-inmueble-img-wrapper {
+  position: relative;
+  height: 220px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #f4f6f7;
+}
+
+.card-inmueble-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card-inmueble:hover .card-inmueble-img {
+  transform: scale(1.05);
+}
+
+.card-inmueble-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-inmueble-titulo {
+  font-size: 1.25rem;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-inmueble-ubicacion {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin: 0 0 15px 0;
+}
+
+.card-badges-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.badge-moderno {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-temporal { 
+  background-color: #fef5e7; 
+  color: #d35400; 
+}
+
+.badge-largo-plazo { 
+  background-color: #eaf2f8; 
+  color: #2980b9; 
+}
+
+.badge-tipo { 
+  background-color: #f4f6f7; 
+  color: #34495e; 
+  border: 1px solid #bdc3c7; 
+}
+
+.card-inmueble-precio-box {
+  margin-top: auto;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 15px;
+  margin-bottom: 20px;
+}
+
+.card-precio-valor {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #27ae60;
+}
+
+.card-precio-sufijo {
+  font-size: 0.9rem;
+  color: #95a5a6;
+  font-weight: 600;
+}
+
+.btn-ver-propiedad {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: #3498db;
+  color: white;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-ver-propiedad:hover {
+  background-color: #2980b9;
+}
+
+.perfil-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.perfil-textarea:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.perfil-help-text {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.host-resumen-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  background: #ffffff;
+  border: 1px solid #e0e6ed;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  flex-wrap: wrap;
+}
+
+.host-resumen-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.host-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ecf0f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 1.4rem;
+  border: 1px solid #d5dbdb;
+}
+
+.host-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.host-nombre {
+  margin: 0 0 6px 0;
+  color: #2c3e50;
+}
+
+.host-meta {
+  margin: 0 0 4px 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.host-rating {
+  margin: 0;
+  color: #34495e;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.host-btn-ver-perfil {
+  width: auto;
+  margin: 0;
+}
+
+.formulario-valoracion-usuario {
+  border-left: 4px solid #3498db;
+}
+
+.perfil-publico-modal {
+  max-width: 760px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.perfil-publico-header {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.perfil-publico-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #ecf0f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+  flex-shrink: 0;
+}
+
+.perfil-publico-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.perfil-publico-main h3 {
+  margin: 0 0 6px 0;
+  color: #2c3e50;
+}
+
+.perfil-publico-main p {
+  margin: 0 0 10px 0;
+  color: #7f8c8d;
+}
+
+.perfil-publico-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.perfil-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f4f6f7;
+  color: #2c3e50;
+  border: 1px solid #d5dbdb;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.perfil-publico-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.perfil-bloque {
+  background-color: #fbfcfc;
+  border: 1px solid #ecf0f1;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.perfil-bloque h4 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.perfil-bloque p {
+  margin: 0;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.perfil-bloque-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.perfil-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .host-resumen-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .perfil-publico-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .perfil-bloque-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.acciones-admin-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+/* =========================================
+   CTA DOBLE PARA CORTO PLAZO
+   ========================================= */
+
+.acciones-temporal-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-consultar-temporal,
+.btn-reservar-mp-premium {
+  width: 100%;
+  margin: 0;
+  min-height: 52px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-consultar-temporal:hover,
+.btn-reservar-mp-premium:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.btn-consultar-temporal {
+  background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+  color: #3498db;
+  border: 2px solid #3498db;
+}
+
+.btn-consultar-temporal:hover {
+  background: linear-gradient(135deg, #f7fbff 0%, #edf7ff 100%);
+  color: #2980b9;
+  border-color: #2980b9;
+}
+
+.btn-reservar-mp-premium {
+  background: linear-gradient(135deg, #00b4f0 0%, #009ee3 100%);
+  color: white;
+  border: none;
+}
+
+.btn-reservar-mp-premium:hover {
+  background: linear-gradient(135deg, #009ee3 0%, #0084bd 100%);
+}
+
+/* evita el margen viejo del botón MP original cuando está dentro del contenedor nuevo */
+.acciones-temporal-box .btn-reservar-mp {
+  margin-top: 0;
+}
+
+.password-help-text {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
