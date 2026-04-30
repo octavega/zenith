@@ -18,10 +18,11 @@
 .auth-card {
   background-color: #ffffff;
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 500px;
+  border: none;
 }
 
 .auth-card h2 {
@@ -104,9 +105,11 @@
   color: #2c3e50;
 }
 
+
+
 .btn-submit {
   margin-top: 20px;
-  background-color: #3498db;
+  background-color: #ff385c;
   color: white;
   border: none;
   padding: 12px;
@@ -116,6 +119,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 
 .btn-submit:hover {
   background-color: #2980b9;
@@ -132,7 +136,7 @@
 .btn-link {
   background: none;
   border: none;
-  color: #3498db;
+  color: #ff385c;
   font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
@@ -210,6 +214,7 @@ input:disabled {
   color: #95a5a6;
   cursor: not-allowed;
 }
+
 /* Botón de eliminación (RF4) */
 .btn-danger {
   background-color: #e74c3c;
@@ -228,6 +233,7 @@ input:disabled {
 .btn-danger:hover {
   background-color: #c0392b;
 }
+
 /* Estilos para Registro de Propietario (RF7) */
 .btn-propietario {
   background-color: #27ae60;
@@ -244,15 +250,15 @@ input:disabled {
 }
 
 .btn-propietario:hover {
-  background-color: #219653;
+  background-color: #ff385c;
 }
 
 .btn-propietario-submit {
-  background-color: #2c3e50;
+  background-color: #ff385c;
 }
 
 .btn-propietario-submit:hover {
-  background-color: #1a252f;
+  background-color: #ff385c;
 }
 
 .file-group {
@@ -298,7 +304,7 @@ input:disabled {
 
 .condiciones-box {
   background-color: #f0f8ff;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid #ff385c;
   padding: 15px;
   border-radius: 0 5px 5px 0;
   display: flex;
@@ -325,12 +331,18 @@ input:disabled {
 }
 
 .propiedad-card {
-  border: 1px solid #e0e6ed;
-  border-radius: 8px;
-  padding: 20px;
+  border: none;
+  border-radius: 16px;
+  padding: 25px;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.propiedad-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
 }
 
 .propiedad-card.inactiva {
@@ -395,7 +407,8 @@ input:disabled {
   padding-top: 15px;
 }
 
-.btn-editar, .btn-baja {
+.btn-editar,
+.btn-baja {
   padding: 8px 15px;
   border: none;
   border-radius: 4px;
@@ -404,10 +417,23 @@ input:disabled {
   cursor: pointer;
 }
 
-.btn-editar { background-color: #f1c40f; color: #333; }
-.btn-editar:hover { background-color: #f39c12; }
-.btn-baja { background-color: #e74c3c; color: white; }
-.btn-baja:hover { background-color: #c0392b; }
+.btn-editar {
+  background-color: #f1c40f;
+  color: #333;
+}
+
+.btn-editar:hover {
+  background-color: #f39c12;
+}
+
+.btn-baja {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-baja:hover {
+  background-color: #c0392b;
+}
 
 
 
@@ -422,7 +448,7 @@ input:disabled {
 .buscador-header {
   background-color: #ffffff;
   padding: 15px 30px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -462,7 +488,7 @@ input:disabled {
   border-radius: 8px;
   width: 300px;
   flex-shrink: 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .filtros-sidebar h3 {
@@ -503,15 +529,36 @@ input:disabled {
   .buscador-layout {
     flex-direction: column;
   }
+
   .filtros-sidebar {
     width: 100%;
   }
+
   .buscador-header {
     flex-direction: column;
     gap: 15px;
   }
 }
 
+.btn-volver-limpio {
+  background: none;
+  border: none;
+  color: #7f8c8d;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-volver-limpio:hover {
+  background-color: #eef2f5;
+  color: #34495e;
+}
 
 /* Estilos para la Vista de Detalle de Propiedad */
 .detalle-layout {
@@ -526,9 +573,10 @@ input:disabled {
 .detalle-main {
   flex: 2;
   background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: none;
 }
 
 .detalle-sidebar {
@@ -554,9 +602,11 @@ input:disabled {
 }
 
 .detalle-titulo {
-  color: #2c3e50;
-  font-size: 1.8rem;
+  color: #1a252f;
+  font-size: 2.2rem;
+  font-weight: 800;
   margin-bottom: 10px;
+  letter-spacing: -0.5px;
 }
 
 .detalle-seccion {
@@ -566,8 +616,10 @@ input:disabled {
 }
 
 .detalle-seccion h3 {
-  color: #34495e;
-  margin-bottom: 15px;
+  color: #1a252f;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .caracteristicas-grid {
@@ -603,10 +655,10 @@ input:disabled {
 /* Tarjeta derecha de compra/contacto */
 .compra-card {
   background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border: 1px solid #e0e6ed;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: none;
 }
 
 .operacion-tag {
@@ -622,10 +674,10 @@ input:disabled {
 }
 
 .precio-destacado {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #2c3e50;
-  margin-bottom: 20px;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #1a252f;
+  margin-bottom: 25px;
 }
 
 .precio-sub {
@@ -642,6 +694,7 @@ input:disabled {
   font-size: 0.95rem;
   color: #34495e;
 }
+
 .info-extra-precio p {
   margin-bottom: 5px;
 }
@@ -654,14 +707,17 @@ input:disabled {
   .detalle-layout {
     flex-direction: column;
   }
+
   .detalle-sidebar {
     width: 100%;
     position: static;
   }
 }
+
 /* Estilos para Fotos en Portada (Feed) */
 .prop-portada {
-  margin: -20px -20px 15px -20px; /* Expande la imagen a los bordes de la card */
+  margin: -20px -20px 15px -20px;
+  /* Expande la imagen a los bordes de la card */
   height: 220px;
   background-color: #ecf0f1;
   border-radius: 8px 8px 0 0;
@@ -676,7 +732,8 @@ input:disabled {
 }
 
 .propiedad-card:hover .img-portada {
-  transform: scale(1.05); /* Efecto zoom sutil al pasar el mouse */
+  transform: scale(1.05);
+  /* Efecto zoom sutil al pasar el mouse */
 }
 
 .img-placeholder {
@@ -751,10 +808,19 @@ input:disabled {
   transition: background-color 0.2s;
 }
 
-.chat-item:hover { background-color: #f1f2f6; }
-.chat-item.activo { background-color: #e0f7fa; border-left: 4px solid #3498db; }
+.chat-item:hover {
+  background-color: #f1f2f6;
+}
 
-.chat-contacto { font-size: 0.8rem; color: #7f8c8d; }
+.chat-item.activo {
+  background-color: #e0f7fa;
+  border-left: 4px solid #3498db;
+}
+
+.chat-contacto {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
 
 .chat-main {
   flex-grow: 1;
@@ -780,6 +846,7 @@ input:disabled {
   flex-direction: column;
   gap: 15px;
   background-color: #f4f7f6;
+  min-height: 0;
 }
 
 .mensaje-burbuja {
@@ -787,6 +854,8 @@ input:disabled {
   padding: 10px 15px;
   border-radius: 8px;
   position: relative;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .mensaje-burbuja.mio {
@@ -824,13 +893,19 @@ input:disabled {
   border-radius: 20px;
   outline: none;
 }
-.chat-input-area input:focus { border-color: #3498db; }
+
+.chat-input-area input:focus {
+  border-color: #3498db;
+}
 
 
 /* Estilos para el Modal de Pagos (RF19 y RF20) */
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
@@ -844,7 +919,7 @@ input:disabled {
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .pago-instrucciones {
@@ -864,6 +939,7 @@ input:disabled {
   font-size: 1.1rem;
   color: #2c3e50;
 }
+
 /* Estilos para Pagos e Historial (RF21 y RF22) */
 .desglose-pago {
   background-color: #f4f7f6;
@@ -886,14 +962,23 @@ input:disabled {
   margin-top: 10px;
 }
 
-.tabla-pagos th, .tabla-pagos td {
+.tabla-pagos th,
+.tabla-pagos td {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ecf0f1;
 }
 
-.badge-estado.pendiente { color: #f39c12; font-weight: bold; }
-.badge-estado.aprobado { color: #27ae60; font-weight: bold; }
+.badge-estado.pendiente {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.badge-estado.aprobado {
+  color: #27ae60;
+  font-weight: bold;
+}
+
 /* Estilos para Badges de Estado (RF23 y RF24) */
 .badge-estado {
   padding: 4px 10px;
@@ -924,13 +1009,15 @@ input:disabled {
   border: 1px solid #f39c12;
 }
 
-.badge-estado.pagado, .badge-estado.aprobado {
+.badge-estado.pagado,
+.badge-estado.aprobado {
   background-color: #eafaf1;
   color: #27ae60;
   border: 1px solid #27ae60;
 }
 
-.badge-estado.atrasado, .badge-estado.rechazado {
+.badge-estado.atrasado,
+.badge-estado.rechazado {
   background-color: #fdedec;
   color: #e74c3c;
   border: 1px solid #e74c3c;
@@ -960,7 +1047,8 @@ input:disabled {
 .foto-principal-img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Para que la foto no se recorte ni se deforme */
+  object-fit: contain;
+  /* Para que la foto no se recorte ni se deforme */
 }
 
 .tira-miniaturas {
@@ -1164,7 +1252,8 @@ input:disabled {
 .btn-eliminar-foto {
   background-color: #e74c3c !important;
   right: 5px;
-  left: auto !important; /* Lo mandamos a la derecha para que no pise al otro botón */
+  left: auto !important;
+  /* Lo mandamos a la derecha para que no pise al otro botón */
 }
 
 .btn-eliminar-foto:hover {
@@ -1277,7 +1366,8 @@ input:disabled {
 .fecha-comentario {
   font-size: 0.8rem;
   color: #7f8c8d;
-  margin-left: auto; /* Empuja la fecha a la derecha */
+  margin-left: auto;
+  /* Empuja la fecha a la derecha */
 }
 
 .comentario-texto {
@@ -1291,7 +1381,7 @@ input:disabled {
   padding: 20px;
   border-radius: 8px;
   border: 1px solid #ecf0f1;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .formulario-valoracion h4 {
@@ -1314,7 +1404,8 @@ input:disabled {
    ========================================= */
 
 .burbuja-notificacion {
-  background-color: #e74c3c; /* Rojo intenso estilo alerta */
+  background-color: #e74c3c;
+  /* Rojo intenso estilo alerta */
   color: white;
   border-radius: 50%;
   padding: 2px 6px;
@@ -1325,16 +1416,27 @@ input:disabled {
   right: -10px;
   min-width: 18px;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
   /* Efecto de latido (opcional pero queda genial) */
   animation: latido 2s infinite;
 }
 
 @keyframes latido {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
-  70% { transform: scale(1.1); box-shadow: 0 0 0 5px rgba(231, 76, 60, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+  }
+
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 5px rgba(231, 76, 60, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+  }
 }
 
 /* =========================================
@@ -1355,9 +1457,9 @@ input:disabled {
   align-items: center;
   padding: 20px 50px;
   background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  position: sticky; 
-  top: 0; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
   z-index: 1000;
 
 }
@@ -1411,8 +1513,12 @@ input:disabled {
 
 .hero-overlay {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(127, 140, 141, 0.7); /* Capa gris semi-transparente */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(127, 140, 141, 0.7);
+  /* Capa gris semi-transparente */
 }
 
 .hero-content {
@@ -1425,7 +1531,7 @@ input:disabled {
   font-size: 4rem;
   margin: 0;
   line-height: 1.2;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* SERVICIOS */
@@ -1453,7 +1559,7 @@ input:disabled {
   border-radius: 10px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .servicio-card h3 {
@@ -1525,15 +1631,27 @@ input:disabled {
   width: 100%;
   height: auto;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsivo para celulares */
 @media (max-width: 768px) {
-  .hero-content h1 { font-size: 2.5rem; }
-  .info-row, .info-row.reversa { flex-direction: column; text-align: center; }
-  .landing-navbar { flex-direction: column; gap: 15px; }
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .info-row,
+  .info-row.reversa {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .landing-navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
+
 /* =========================================
    FILTRO DE DISPONIBILIDAD (FECHAS)
    ========================================= */
@@ -1638,7 +1756,7 @@ input:disabled {
   border-radius: 10px;
   border: 1px solid #e0e6ed;
   padding: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -1679,9 +1797,20 @@ input:disabled {
   font-weight: bold;
 }
 
-.dash-badge.ok { background-color: #e8f8f5; color: #27ae60; }
-.dash-badge.mal { background-color: #fadbd8; color: #c0392b; }
-.dash-badge.revisando { background-color: #fcf3cf; color: #f39c12; }
+.dash-badge.ok {
+  background-color: #e8f8f5;
+  color: #27ae60;
+}
+
+.dash-badge.mal {
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+.dash-badge.revisando {
+  background-color: #fcf3cf;
+  color: #f39c12;
+}
 
 .dash-item-acciones button {
   background: none;
@@ -1725,7 +1854,8 @@ input:disabled {
 .reserva-input-group label {
   font-size: 0.85rem;
   color: #7f8c8d;
-  display: block; /* Asegura que el input baje */
+  display: block;
+  /* Asegura que el input baje */
   margin-bottom: 4px;
 }
 
@@ -1787,7 +1917,8 @@ input:disabled {
 }
 
 .btn-reservar-mp:hover {
-  background-color: #0084bd; /* Un azul un poco más oscuro al pasar el mouse */
+  background-color: #0084bd;
+  /* Un azul un poco más oscuro al pasar el mouse */
 }
 
 /* =========================================
@@ -1808,7 +1939,7 @@ input:disabled {
   padding: 20px;
   border-radius: 8px 8px 0 0;
   /* Este margen negativo compensa el padding que trae el .modal-content por defecto */
-  margin: -30px -30px 20px -30px; 
+  margin: -30px -30px 20px -30px;
   color: white;
 }
 
@@ -1852,7 +1983,8 @@ input:disabled {
 
 .titulo-reservas {
   margin-top: 40px;
-  border-bottom: 2px solid #e67e22; /* Naranja para diferenciar de los contratos a largo plazo */
+  border-bottom: 2px solid #e67e22;
+  /* Naranja para diferenciar de los contratos a largo plazo */
   padding-bottom: 10px;
 }
 
@@ -1907,7 +2039,8 @@ input:disabled {
 }
 
 .btn-cancelar-reserva:hover {
-  background-color: #c0392b; /* Rojo más oscuro al pasar el mouse */
+  background-color: #c0392b;
+  /* Rojo más oscuro al pasar el mouse */
 }
 
 /* =========================================
@@ -2192,7 +2325,8 @@ input:disabled {
   background-color: #e8f8f5;
   color: #27ae60;
   border: 1px solid #a9dfbf;
-  text-align: left; /* Alineación normal si es plata a favor */
+  text-align: left;
+  /* Alineación normal si es plata a favor */
 }
 
 .mensaje-candado-retenido {
@@ -2263,7 +2397,7 @@ input:disabled {
 }
 
 .titulo-seccion-contratos {
-  border-bottom: 2px solid #3498db;
+  border-bottom: 2px solid #ff385c;
   padding-bottom: 10px;
   color: #2c3e50;
   margin-top: 10px;
@@ -2275,7 +2409,7 @@ input:disabled {
   background-color: #fff;
   border-radius: 8px;
   border: 1px solid #ecf0f1;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 .tarjeta-contrato-titulo {
@@ -2305,36 +2439,38 @@ input:disabled {
   border-collapse: collapse;
   margin-top: 10px;
   background-color: #fff;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .tabla-pagos-limpia thead tr {
-  background-color: #f8f9fa;
+  background-color: #f3f4f6;
   text-align: left;
   font-size: 0.9rem;
 }
 
 .tabla-pagos-limpia th {
   padding: 12px;
-  border-bottom: 2px solid #bdc3c7;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .tabla-pagos-limpia tbody tr {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f3f4f6;
 }
 
 .tabla-celda-concepto {
   padding: 12px;
-  color: #2c3e50;
+  color: #222222;
   font-weight: bold;
 }
 
 .tabla-celda-fecha {
   padding: 12px;
-  color: #34495e;
+  color: #3f3f3f;
 }
 
 .tabla-celda-fecha.texto-vencido {
-  color: #c0392b;
+  color: #ff385c;
 }
 
 .tabla-celda-monto {
@@ -2366,9 +2502,16 @@ input:disabled {
 .btn-descarga-chico {
   padding: 0;
   font-size: 0.85rem;
-  color: #2980b9;
+  color: #ff385c;
   text-align: left;
   font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-descarga-chico:hover {
+  text-decoration: underline;
 }
 
 .badge-estado-pago {
@@ -2385,22 +2528,24 @@ input:disabled {
 }
 
 .estado-vencido {
-  background-color: #fadbd8;
-  color: #c0392b;
+  background-color: #fef2f2;
+  color: #ff385c;
 }
 
-.estado-en-revisión, .estado-pendiente {
-  background-color: #ebf5fb;
-  color: #2980b9;
+.estado-en-revisión,
+.estado-pendiente {
+  background-color: #f3f4f6;
+  color: #6a6a6a;
 }
 
 /* Modulo de Problemas en el Dashboard */
 .panel-problemas-dashboard {
   margin-top: 25px;
-  background-color: #fdfaeb;
+  background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #f1c40f;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .panel-problemas-titulo {
@@ -2478,12 +2623,17 @@ input:disabled {
 }
 
 /* Reservas Dashboard utilidades extras */
-.mt-40 { margin-top: 40px; }
-.mb-20 { margin-bottom: 20px; }
+.mt-40 {
+  margin-top: 40px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
 
 .reserva-bg-blanco {
   background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 .reserva-bg-gris {
@@ -2499,14 +2649,15 @@ input:disabled {
   align-items: center;
   background-color: #ffffff;
   padding: 15px 30px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid #ecf0f1;
 }
 
 .header-logo h2 {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #3498db; /* Celeste Institucional Zenith */
+  color: #3498db;
+  /* Celeste Institucional Zenith */
   letter-spacing: -0.5px;
   margin: 0;
 }
@@ -2543,7 +2694,8 @@ input:disabled {
 
 .nav-btn:hover {
   background-color: #f4f6f7;
-  color: #3498db; /* Se pintan de celeste al pasar el mouse */
+  color: #3498db;
+  /* Se pintan de celeste al pasar el mouse */
 }
 
 /* Notificaciones */
@@ -2574,20 +2726,27 @@ input:disabled {
   background-color: #fdedec;
   color: #c0392b;
 }
+
 /* Clase para resaltar el botón de la sección en la que estamos ubicados */
 .nav-btn-active {
-  background-color: #eaf2f8; /* Fondo celeste súper clarito */
-  color: #3498db; /* Letra celeste institucional */
+  background-color: #eaf2f8;
+  /* Fondo celeste súper clarito */
+  color: #3498db;
+  /* Letra celeste institucional */
   font-weight: 800;
-  box-shadow: inset 0 -3px 0 #3498db; /* Una liniecita sutil abajo para marcar presencia */
+  box-shadow: inset 0 -3px 0 #3498db;
+  /* Una liniecita sutil abajo para marcar presencia */
 }
+
 .header-greeting {
   font-weight: 600;
   color: #2c3e50;
-  margin-right: 10px;      /* Reducido */
+  margin-right: 10px;
+  /* Reducido */
   font-size: 0.95rem;
   border-right: 2px solid #ecf0f1;
-  padding-right: 15px;     /* Reducido */
+  padding-right: 15px;
+  /* Reducido */
 }
 
 /* =========================================
@@ -2623,15 +2782,15 @@ input:disabled {
 }
 
 .subtitulo-plan-pagos {
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
+  color: #222222;
+  border-bottom: 2px solid #ff385c;
   padding-bottom: 5px;
   margin-top: 20px;
 }
 
 .texto-cbu-chico {
   font-size: 0.8rem;
-  color: #7f8c8d;
+  color: #6a6a6a;
 }
 
 .btn-pagar-chico {
@@ -2679,7 +2838,8 @@ input:disabled {
 }
 
 .header-mp-azul {
-  background-color: #009ee3; /* Color Mercado Pago */
+  background-color: #009ee3;
+  /* Color Mercado Pago */
   padding: 20px;
   border-radius: 8px 8px 0 0;
   margin: -30px -30px 20px -30px;
@@ -2852,6 +3012,7 @@ input:disabled {
   width: 100%;
   margin: 0 !important;
 }
+
 /* =========================================
    FILTROS SIDEBAR MODERNOS
    ========================================= */
@@ -2861,7 +3022,7 @@ input:disabled {
   padding: 24px;
   border-radius: 12px;
   border: 1px solid #e0e6ed;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   height: fit-content;
 }
 
@@ -2898,7 +3059,8 @@ input:disabled {
   border-radius: 6px;
   font-size: 0.9rem;
   transition: border-color 0.2s;
-  box-sizing: border-box; /* Importante para que el padding no desborde */
+  box-sizing: border-box;
+  /* Importante para que el padding no desborde */
 }
 
 .filter-input:focus {
@@ -2944,7 +3106,7 @@ input:disabled {
   padding: 24px;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .filter-title {
@@ -3036,7 +3198,7 @@ input:disabled {
 .react-datepicker {
   border: 1px solid #e2e8f0 !important;
   border-radius: 8px !important;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* =========================================
@@ -3064,7 +3226,7 @@ input:disabled {
 }
 
 .btn-success-flex {
-  background-color: #27ae60 !important;
+  background-color: #ff385c !important;
   margin: 0 !important;
   flex: 1;
   color: white;
@@ -3072,7 +3234,7 @@ input:disabled {
 }
 
 .btn-success-flex:hover {
-  background-color: #219653 !important;
+  background-color: #ff385c !important;
 }
 
 /* =========================================
@@ -3083,21 +3245,27 @@ input:disabled {
 .detalle-main img {
   width: 100%;
   height: 100%;
-  max-height: 450px; /* Le ponemos un tope para que no quede gigante en pantallas grandes */
-  object-fit: cover; /* <--- LA MAGIA: Llenar el cuadro sin deformar ni dejar bordes blancos */
-  object-position: center; /* Centra el recorte para que siempre se vea el medio de la foto */
-  border-radius: 8px; /* Un borde sutilmente redondeado para que quede más moderno */
+  max-height: 450px;
+  /* Le ponemos un tope para que no quede gigante en pantallas grandes */
+  object-fit: cover;
+  /* <--- LA MAGIA: Llenar el cuadro sin deformar ni dejar bordes blancos */
+  object-position: center;
+  /* Centra el recorte para que siempre se vea el medio de la foto */
+  border-radius: 8px;
+  /* Un borde sutilmente redondeado para que quede más moderno */
   display: block;
 }
 
 /* Si tu componente GaleriaInmueble usa miniaturas abajo, aseguramos que también se vean bien */
 .galeria-miniaturas img {
   width: 100%;
-  height: 80px; /* Altura fija para las fotitos de abajo */
+  height: 80px;
+  /* Altura fija para las fotitos de abajo */
   object-fit: cover;
   border-radius: 4px;
   cursor: pointer;
 }
+
 /* =========================================
    TARJETAS DE PROPIEDADES (MODERNAS)
    ========================================= */
@@ -3107,7 +3275,7 @@ input:disabled {
   border-radius: 12px;
   border: 1px solid #e0e6ed;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -3116,7 +3284,7 @@ input:disabled {
 
 .card-inmueble:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
 }
 
 .card-inmueble-img-wrapper {
@@ -3177,20 +3345,20 @@ input:disabled {
   letter-spacing: 0.5px;
 }
 
-.badge-temporal { 
-  background-color: #fef5e7; 
-  color: #d35400; 
+.badge-temporal {
+  background-color: #fef5e7;
+  color: #d35400;
 }
 
-.badge-largo-plazo { 
-  background-color: #eaf2f8; 
-  color: #2980b9; 
+.badge-largo-plazo {
+  background-color: #eaf2f8;
+  color: #2980b9;
 }
 
-.badge-tipo { 
-  background-color: #f4f6f7; 
-  color: #34495e; 
-  border: 1px solid #bdc3c7; 
+.badge-tipo {
+  background-color: #f4f6f7;
+  color: #34495e;
+  border: 1px solid #bdc3c7;
 }
 
 .card-inmueble-precio-box {
@@ -3260,7 +3428,7 @@ input:disabled {
   border: 1px solid #e0e6ed;
   border-radius: 12px;
   padding: 18px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   flex-wrap: wrap;
 }
 
@@ -3441,6 +3609,7 @@ input:disabled {
   flex-direction: column;
   gap: 5px;
 }
+
 /* =========================================
    CTA DOBLE PARA CORTO PLAZO
    ========================================= */
@@ -3501,4 +3670,135 @@ input:disabled {
   margin-top: 5px;
   font-size: 0.8rem;
   color: #7f8c8d;
+}
+
+/* ========================================================
+   ESTILOS MODERNOS PARA 'MI PANEL' (DASHBOARD PROPIETARIOS)
+   ======================================================== */
+.dash-tabs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #f3f4f6;
+  padding-bottom: 10px;
+}
+
+.dash-tab {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #6a6a6a;
+  cursor: pointer;
+  padding: 10px 15px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.dash-tab.activa {
+  color: #222222;
+}
+
+.dash-tab.activa::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #ff385c;
+  border-radius: 3px 3px 0 0;
+}
+
+.dash-tab:hover {
+  color: #222222;
+}
+
+.dash-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dash-item-prop {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-item-prop:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.dash-item-img {
+  width: 100px;
+  height: 80px;
+  border-radius: 12px;
+  background-color: #f3f4f6;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #cbd5e1;
+}
+
+.dash-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dash-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.dash-badge.ok {
+  background-color: #e8f8f5;
+  color: #27ae60;
+}
+
+.dash-badge.mal {
+  background-color: #fceceb;
+  color: #e74c3c;
+}
+
+.dash-badge.revisando {
+  background-color: #fef5e7;
+  color: #f39c12;
+}
+
+.dash-item-acciones {
+  display: flex;
+  gap: 10px;
+}
+
+.dash-item-acciones button {
+  background: #f3f4f6;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-item-acciones button:hover {
+  background: #e5e7eb;
 }
