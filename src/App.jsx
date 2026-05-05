@@ -182,6 +182,31 @@ function App() {
     provincia: '',
     rol: 'inquilino'
   });
+  const provinciasYCiudades = {
+    "Buenos Aires": ["La Plata", "Mar del Plata", "Bahía Blanca", "San Nicolás", "Tandil"],
+    "Catamarca": ["San Fernando del Valle de Catamarca", "Belén", "Tinogasta"],
+    "Chaco": ["Resistencia", "Presidencia Roque Sáenz Peña", "Villa Ángela"],
+    "Chubut": ["Rawson", "Trelew", "Puerto Madryn", "Comodoro Rivadavia", "Esquel"],
+    "Córdoba": ["Córdoba", "Villa Carlos Paz", "Río Cuarto", "Alta Gracia", "Villa María"],
+    "Corrientes": ["Corrientes", "Goya", "Paso de los Libres", "Mercedes"],
+    "Entre Ríos": ["Paraná", "Concordia", "Gualeguaychú", "Concepción del Uruguay"],
+    "Formosa": ["Formosa", "Clorinda", "Pirané"],
+    "Jujuy": ["San Salvador de Jujuy", "Palpalá", "Perico", "Libertador General San Martín"],
+    "La Pampa": ["Santa Rosa", "General Pico", "Toay"],
+    "La Rioja": ["La Rioja", "Chilecito", "Aimogasta"],
+    "Mendoza": ["Mendoza", "Godoy Cruz", "Maipú", "San Rafael", "Luján de Cuyo"],
+    "Misiones": ["Posadas", "Oberá", "Eldorado", "Puerto Iguazú"],
+    "Neuquén": ["Neuquén", "Cutral Có", "San Martín de los Andes", "Zapala"],
+    "Río Negro": ["Viedma", "General Roca", "Bariloche", "Cipolletti"],
+    "Salta": ["Salta", "Orán", "Tartagal", "Metán"],
+    "San Juan": ["San Juan", "Rawson", "Rivadavia"],
+    "San Luis": ["San Luis", "Villa Mercedes", "Merlo"],
+    "Santa Cruz": ["Río Gallegos", "Caleta Olivia", "El Calafate"],
+    "Santa Fe": ["Santa Fe", "Rosario", "Rafaela", "Venado Tuerto"],
+    "Santiago del Estero": ["Santiago del Estero", "La Banda", "Termas de Río Hondo", "Añatuya"],
+    "Tierra del Fuego": ["Ushuaia", "Río Grande", "Tolhuin"],
+    "Tucumán": ["San Miguel de Tucumán", "Tafí Viejo", "Yerba Buena", "Concepción"]
+  };
   // Estado para el usuario que ha iniciado sesión
   const [usuarioLogueado, setUsuarioLogueado] = useState(null);
   const provinciasArgentinas = [
@@ -565,11 +590,11 @@ function App() {
         fecha: valGuardada.fecha
       }]);
       setNuevaValoracion({ calificacion: 5, comentario: '' });
-    // Notificar al propietario
-    const propInfo = propiedades.find(p => String(p.id) === String(propiedadId));
-    if (propInfo && propInfo.propietario_id) {
-      enviarNotificacion(propInfo.propietario_id, "Nueva Reseña", `Tu propiedad "${propInfo.titulo}" ha recibido una nueva calificación de ${nuevaValoracion.calificacion} estrellas.`);
-    }
+      // Notificar al propietario
+      const propInfo = propiedades.find(p => String(p.id) === String(propiedadId));
+      if (propInfo && propInfo.propietario_id) {
+        enviarNotificacion(propInfo.propietario_id, "Nueva Reseña", `Tu propiedad "${propInfo.titulo}" ha recibido una nueva calificación de ${nuevaValoracion.calificacion} estrellas.`);
+      }
       alert("¡Gracias por tu valoración! Ayudará a otros inquilinos.");
     }
   };
@@ -913,7 +938,18 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
 
   // Manejadores para Publicar Inmueble (RF8)
   const handleInmuebleChange = (e) => {
-    setDatosInmueble({ ...datosInmueble, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'provincia') {
+      setDatosInmueble({
+        ...datosInmueble,
+        provincia: value,
+        ciudad: ''
+      });
+      return;
+    }
+
+    setDatosInmueble({ ...datosInmueble, [name]: value });
   };
 
   const handleServiciosChange = (e) => {
@@ -1565,9 +1601,9 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
         mensaje: mensaje,
         leida: false
       };
-      
+
       const { data, error } = await supabase.from('notificaciones').insert([payload]).select();
-      
+
       if (!error && data && data.length > 0) {
         setNotificaciones(prev => [...prev, data[0]]);
       } else {
@@ -1910,6 +1946,10 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
     };
   };
 
+  const ciudadesDisponibles = datosInmueble.provincia
+    ? (provinciasYCiudades[datosInmueble.provincia] || [])
+    : [];
+
   const handleEnviarValoracionUsuario = async (e, contexto) => {
     e.preventDefault();
     if (!contexto) return;
@@ -1959,10 +1999,10 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
       ]);
 
       setNuevaValoracionUsuario({ calificacion: 5, comentario: '' });
-    // Notificar al usuario valorado
-    if (contexto && contexto.usuarioId) {
-      enviarNotificacion(contexto.usuarioId, "Nueva Valoración Personal", `Has recibido una calificación de ${nuevaValoracionUsuario.calificacion} estrellas de parte de ${usuarioLogueado.nombre}.`);
-    }
+      // Notificar al usuario valorado
+      if (contexto && contexto.usuarioId) {
+        enviarNotificacion(contexto.usuarioId, "Nueva Valoración Personal", `Has recibido una calificación de ${nuevaValoracionUsuario.calificacion} estrellas de parte de ${usuarioLogueado.nombre}.`);
+      }
       alert('¡Reseña del perfil enviada con éxito!');
     }
   };
@@ -3380,9 +3420,9 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
               {chatActivo && (chatActivo.inquilinoEmail === usuarioLogueado.email || chatActivo.propietarioEmail === usuarioLogueado.email) ? (
                 <>
                   <div className="chat-header-activo" style={{ padding: '15px 20px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', backgroundColor: '#fff', gap: '15px', flexShrink: 0 }}>
-                    <button 
-                      type="button" 
-                      onClick={() => setChatActivo(null)} 
+                    <button
+                      type="button"
+                      onClick={() => setChatActivo(null)}
                       style={{ background: 'none', border: 'none', color: '#ff385c', fontWeight: 'bold', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', fontSize: '1rem' }}
                     >
                       ← Atrás
@@ -4301,8 +4341,42 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
 
               <h3 className="section-title">Ubicación y Dimensiones</h3>
               <div className="form-row">
-                <div className="form-group"><label>Provincia</label><input type="text" name="provincia" value={datosInmueble.provincia} onChange={handleInmuebleChange} required /></div>
-                <div className="form-group"><label>Ciudad</label><input type="text" name="ciudad" value={datosInmueble.ciudad} onChange={handleInmuebleChange} required /></div>
+                <div className="form-group">
+                  <label>Provincia</label>
+                  <select
+                    name="provincia"
+                    value={datosInmueble.provincia}
+                    onChange={handleInmuebleChange}
+                    required
+                  >
+                    <option value="">Selecciona una provincia</option>
+                    {Object.keys(provinciasYCiudades).map((provincia) => (
+                      <option key={provincia} value={provincia}>
+                        {provincia}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Ciudad</label>
+                  <select
+                    name="ciudad"
+                    value={datosInmueble.ciudad}
+                    onChange={handleInmuebleChange}
+                    required
+                    disabled={!datosInmueble.provincia}
+                  >
+                    <option value="">
+                      {datosInmueble.provincia ? 'Selecciona una ciudad' : 'Primero selecciona una provincia'}
+                    </option>
+                    {ciudadesDisponibles.map((ciudad) => (
+                      <option key={ciudad} value={ciudad}>
+                        {ciudad}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className="form-row">
                 <div className="form-group"><label>Barrio</label><input type="text" name="barrio" value={datosInmueble.barrio} onChange={handleInmuebleChange} required /></div>
