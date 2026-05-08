@@ -1,73 +1,98 @@
-import React from 'react';
-import { initMercadoPago, Payment } from '@mercadopago/sdk-react';
+import React, { useState } from 'react';
 
-// REEMPLAZÁ CON TU PUBLIC KEY DE PRUEBA (Empieza con TEST-)
-initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY, { locale: 'es-AR' });
+const CheckoutBrick = ({
+  precioAPagar,
+  titulo = 'Pago Zenith Alquileres',
+  descripcion = 'Pago realizado desde Zenith Alquileres',
+  payerEmail,
+  externalReference,
+  metadata,
+  pendingPayment,
+}) => {
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState('');
 
-const CheckoutBrick = ({ precioAPagar, onPaymentSuccess }) => {
-  // Configuración inicial del monto
-  const initialization = {
-    amount: precioAPagar,
-  };
+  const iniciarPago = async () => {
+    setError('');
 
-  // Qué medios de pago queremos mostrar
-  const customization = {
-    paymentMethods: {
-      creditCard: "all",
-      debitCard: "all",
-      ticket: "all",
-      bankTransfer: "all",
-      mercadoPago: "all",
-    },
-  };
+    const monto = Number(precioAPagar);
 
-  // Esta función se ejecuta cuando el usuario hace clic en "Pagar" en el formulario
-  const onSubmit = async ({ formData }) => {
-    return new Promise((resolve, reject) => {
-      // Le mandamos los datos de la tarjeta a nuestro servidor Node.js
-      fetch("http://localhost:3001/process_payment", {
-        method: "POST",
+    if (!monto || monto <= 0) {
+      setError('El monto a pagar no es válido.');
+      return;
+    }
+
+    try {
+      setCargando(true);
+
+      const response = await fetch('http://localhost:3001/create_preference', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Respuesta del servidor:", data);
-          if (data.status === "approved") {
-            alert("¡Excelente! Tu pago fue aprobado.");
-            onPaymentSuccess(data.id);
-            // ¡Acá es donde después vas a actualizar tu base de datos de Supabase!
-          } else {
-            alert("El pago quedó en estado: " + data.status);
-          }
-          resolve();
+        body: JSON.stringify({
+          amount: monto,
+          title: titulo,
+          description: descripcion,
+          payerEmail,
+          externalReference,
+          metadata,
+        }),
+      });
+
+      const data = await response.json();
+
+      console.log('Respuesta create_preference:', data);
+
+      if (!response.ok) {
+        throw new Error(data.message || data.error || 'No se pudo crear la preferencia.');
+      }
+
+      if (!data.redirectUrl) {
+        throw new Error('Mercado Pago no devolvió una URL de pago.');
+      }
+
+      localStorage.setItem(
+        'zenith_pago_pendiente',
+        JSON.stringify({
+          ...pendingPayment,
+          preferenceId: data.preferenceId,
+          externalReference,
+          monto,
+          createdAt: new Date().toISOString(),
         })
-        .catch((error) => {
-          console.error("Error en la petición:", error);
-          reject();
-        });
-    });
-  };
+      );
 
-  const onError = async (error) => {
-    console.log("Error en el Brick:", error);
-  };
-
-  const onReady = async () => {
-    console.log("¡Formulario cargado y listo para usar!");
+      window.location.href = data.redirectUrl;
+    } catch (err) {
+      console.error('Error iniciando Checkout Pro:', err);
+      setError(err.message || 'Error al iniciar el pago.');
+    } finally {
+      setCargando(false);
+    }
   };
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <Payment
-        initialization={initialization}
-        customization={customization}
-        onSubmit={onSubmit}
-        onReady={onReady}
-        onError={onError}
-      />
+      <button
+        type="button"
+        className="btn-submit"
+        onClick={iniciarPago}
+        disabled={cargando}
+        style={{
+          width: '100%',
+          opacity: cargando ? 0.7 : 1,
+          cursor: cargando ? 'not-allowed' : 'pointer',
+        }}
+      >
+        {cargando ? 'Redirigiendo a Mercado Pago...' : 'Pagar con Mercado Pago'}
+      </button>
+
+      {error && (
+        <p style={{ color: '#e74c3c', marginTop: '10px', fontSize: '0.9rem' }}>
+          {error}
+        </p>
+      )}
     </div>
   );
 };

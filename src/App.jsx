@@ -208,7 +208,26 @@ function App() {
     "Tucumán": ["San Miguel de Tucumán", "Tafí Viejo", "Yerba Buena", "Concepción"]
   };
   // Estado para el usuario que ha iniciado sesión
-  const [usuarioLogueado, setUsuarioLogueado] = useState(null);
+  const [usuarioLogueado, setUsuarioLogueado] = useState(() => {
+  try {
+    const usuarioGuardado = localStorage.getItem('zenith_usuario_logueado');
+    return usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
+  } catch (error) {
+    console.error('Error al recuperar sesión:', error);
+    return null;
+  }
+});
+useEffect(() => {
+  try {
+    if (usuarioLogueado) {
+      localStorage.setItem('zenith_usuario_logueado', JSON.stringify(usuarioLogueado));
+    } else {
+      localStorage.removeItem('zenith_usuario_logueado');
+    }
+  } catch (error) {
+    console.error('Error al guardar sesión:', error);
+  }
+}, [usuarioLogueado]);
   const provinciasArgentinas = [
     "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos",
     "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén",
@@ -279,7 +298,183 @@ function App() {
   const [contratos, setContratos] = useState([]);
   const [pagos, setPagos] = useState([]);
   const [reservas, setReservas] = useState([]);
-  // ... (el resto también dejalos como [])
+
+
+useEffect(() => {
+  const procesarRetornoMercadoPago = async () => {
+    const params = new URLSearchParams(window.location.search);
+
+    const mpStatus = params.get('mp_status');
+    const status = params.get('status') || params.get('collection_status');
+    const paymentId =
+      params.get('payment_id') ||
+      params.get('collection_id') ||
+      params.get('merchant_order_id') ||
+      `MP-${Date.now()}`;
+
+    if (!mpStatus) return;
+
+    const pendienteRaw = localStorage.getItem('zenith_pago_pendiente');
+
+    if (!pendienteRaw) {
+      alert('Mercado Pago volvió a la app, pero no se encontró la información del pago pendiente.');
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+
+    const pagoPendiente = JSON.parse(pendienteRaw);
+
+    const aprobado =
+      mpStatus === 'success' ||
+      status === 'approved';
+
+    const rechazado =
+      mpStatus === 'failure' ||
+      status === 'rejected';
+
+    const pendiente =
+      mpStatus === 'pending' ||
+      status === 'pending' ||
+      status === 'in_process';
+
+    const claveProcesado = `zenith_pago_procesado_${paymentId}`;
+
+    if (localStorage.getItem(claveProcesado)) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+
+    if (rechazado) {
+      localStorage.removeItem('zenith_pago_pendiente');
+      alert('El pago fue rechazado o cancelado.');
+      setVistaActual(pagoPendiente.tipo === 'reserva' ? 'detalle-propiedad' : 'mis-alquileres');
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+
+    if (pendiente) {
+      alert('El pago quedó pendiente. Cuando Mercado Pago lo confirme, deberías verificarlo desde el panel.');
+      setVistaActual('mis-alquileres');
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+
+    if (!aprobado) {
+      alert('No se pudo confirmar el estado del pago.');
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+
+    try {
+      if (pagoPendiente.tipo === 'cuota') {
+        const infoPago = pagoPendiente.cuota;
+
+        const nuevoPagoDB = {
+          contrato_id: pagoPendiente.contratoId,
+          concepto: infoPago.concepto,
+          monto_total: infoPago.montoTotal,
+          metodo: 'mercado_pago_checkout_pro',
+          estado: 'Aprobado',
+          comprobante_url: `Recibo MP: ${paymentId}`,
+        };
+
+        const { data, error } = await supabase
+          .from('pagos')
+          .insert([nuevoPagoDB])
+          .select();
+
+        if (error) throw error;
+
+        if (data && data[0]) {
+          const pagoCreado = data[0];
+
+          setPagos(prev => [
+            ...prev,
+            {
+              id: pagoCreado.id,
+              contratoId: pagoCreado.contrato_id,
+              concepto: pagoCreado.concepto,
+              montoTotal: pagoCreado.monto_total,
+              metodo: pagoCreado.metodo,
+              fecha: new Date(pagoCreado.fecha_pago).toLocaleDateString(),
+              estado: pagoCreado.estado,
+              comprobanteUrl: pagoCreado.comprobante_url,
+            },
+          ]);
+        }
+
+        setVistaActual('mis-alquileres');
+
+        setTimeout(() => {
+          alert('¡Pago registrado correctamente!');
+        }, 300);
+      }
+
+      if (pagoPendiente.tipo === 'reserva') {
+        const reserva = pagoPendiente.reserva;
+
+        const nuevaReservaDB = {
+          propiedad_id: reserva.propiedadId,
+          propietario_id: reserva.propietarioId,
+          inquilino_dni: pagoPendiente.usuario.dni,
+          fecha_inicio: reserva.fechaInicio,
+          fecha_fin: reserva.fechaFin,
+          cantidad_dias: reserva.cantidadDias,
+          precio_total: reserva.precioTotal,
+          estado: 'Confirmada',
+          estado_pago: 'Retenido',
+        };
+
+        const { data, error } = await supabase
+          .from('reservas')
+          .insert([nuevaReservaDB])
+          .select();
+
+        if (error) throw error;
+
+        if (data && data[0]) {
+          const resGuardada = data[0];
+
+          setReservas(prev => [
+            ...prev,
+            {
+              id: resGuardada.id,
+              propiedadId: resGuardada.propiedad_id,
+              propietarioId: resGuardada.propietario_id,
+              inquilinoDni: resGuardada.inquilino_dni,
+              fechaInicio: resGuardada.fecha_inicio,
+              fechaFin: resGuardada.fecha_fin,
+              cantidadDias: resGuardada.cantidad_dias,
+              precioTotal: resGuardada.precio_total,
+              fechaReserva: resGuardada.fecha_reserva,
+              estado: resGuardada.estado,
+              estadoPago: resGuardada.estado_pago,
+              montoReembolso: resGuardada.monto_reembolso,
+            },
+          ]);
+        }
+
+        setDatosReserva({ fechaInicio: '', fechaFin: '' });
+        setVistaActual('mis-alquileres');
+
+        setTimeout(() => {
+          alert('¡Reserva confirmada con éxito! El pago quedó registrado.');
+        }, 300);
+      }
+
+      localStorage.setItem(claveProcesado, 'true');
+      localStorage.removeItem('zenith_pago_pendiente');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } catch (error) {
+      console.error('Error al registrar pago devuelto por Mercado Pago:', error);
+      alert('El pago se hizo, pero hubo un error al guardarlo en Supabase: ' + error.message);
+      setVistaActual('mis-alquileres');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  };
+
+  procesarRetornoMercadoPago();
+}, []);
 
 
   //Estados de propiedades
@@ -809,108 +1004,6 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
     document.body.removeChild(enlaceDescarga);
     URL.revokeObjectURL(url);
   };
-  // NUEVO MANEJADOR DE PAGO EXITOSO CON MERCADO PAGO BRICKS
-  const registrarPagoExitoso = async (idTransaccionMP) => {
-    try {
-      console.log("Guardando pago real en Supabase...");
-      const infoPago = modalPago.cuotaSeleccionada;
-
-      // 1. Armamos el registro para la base de datos
-      const nuevoPagoDB = {
-        contrato_id: modalPago.id,
-        concepto: infoPago.concepto,
-        monto_total: infoPago.montoTotal,
-        metodo: 'mercado_pago_brick',
-        estado: 'Aprobado',
-        comprobante_url: `Recibo MP: ${idTransaccionMP}` // Guardamos el ID real de Mercado Pago
-      };
-
-      // 2. Insertamos en Supabase
-      const { data, error: errInsert } = await supabase.from('pagos').insert([nuevoPagoDB]).select();
-      if (errInsert) throw errInsert;
-
-      // 3. Actualizamos la vista local al instante
-      const pagoCreado = data[0];
-      const nuevoPagoLocal = {
-        id: pagoCreado.id,
-        contratoId: pagoCreado.contrato_id,
-        concepto: pagoCreado.concepto,
-        montoTotal: pagoCreado.monto_total,
-        metodo: pagoCreado.metodo,
-        fecha: new Date(pagoCreado.fecha_pago).toLocaleDateString(),
-        estado: pagoCreado.estado,
-        comprobanteUrl: pagoCreado.comprobante_url
-      };
-
-      setPagos([...pagos, nuevoPagoLocal]);
-      setModalPago(null);
-      // Notificaciones de Pago
-      enviarNotificacion(modalPago.propietarioId, "Pago Recibido", `Has recibido el pago de ${infoPago.concepto} por un total de $${infoPago.montoTotal}.`);
-      enviarNotificacion(usuarioLogueado.id, "Pago Confirmado", `Tu pago de ${infoPago.concepto} ha sido procesado exitosamente.`); // Cerramos el modal al terminar de guardar
-      // ¡ACÁ OCURRE LA MAGIA DE LA DESCARGA!
-      alert("¡Excelente! Tu pago fue aprobado. Se descargará tu comprobante automáticamente.");
-      descargarComprobanteTXT(infoPago, idTransaccionMP);
-
-    } catch (error) {
-      alert("El pago se hizo, pero hubo un error al guardarlo en la base de datos: " + error.message);
-      console.error(error);
-    }
-  };
-
-  // NUEVA FUNCIÓN: Guardar la reserva temporal tras pagar con MP
-  const registrarReservaExitosa = async (idTransaccionMP) => {
-    try {
-      console.log("Guardando reserva en Supabase...");
-
-      // 1. Armamos el paquete para la BD
-      const nuevaReservaDB = {
-        propiedad_id: modalReserva.propiedadId,
-        propietario_id: modalReserva.propietarioId,
-        inquilino_dni: usuarioLogueado.dni,
-        fecha_inicio: modalReserva.fechaInicio,
-        fecha_fin: modalReserva.fechaFin,
-        cantidad_dias: modalReserva.cantidadDias,
-        precio_total: modalReserva.precioTotal,
-        estado: 'Confirmada',
-        estado_pago: 'Retenido' // Como pediste, la plata queda retenida
-      };
-
-      // 2. Insertamos en Supabase
-      const { data, error } = await supabase.from('reservas').insert([nuevaReservaDB]).select();
-      if (error) throw error;
-
-      // 3. Actualizamos la vista local
-      const resGuardada = data[0];
-      setReservas([...reservas, {
-        id: resGuardada.id,
-        propiedadId: resGuardada.propiedad_id,
-        propietarioId: resGuardada.propietario_id,
-        inquilinoDni: resGuardada.inquilino_dni,
-        fechaInicio: resGuardada.fecha_inicio,
-        fechaFin: resGuardada.fecha_fin,
-        cantidadDias: resGuardada.cantidad_dias,
-        precioTotal: resGuardada.precio_total,
-        fechaReserva: resGuardada.fecha_reserva,
-        estado: resGuardada.estado,
-        estadoPago: resGuardada.estado_pago,
-        montoReembolso: resGuardada.monto_reembolso
-      }]);
-
-      alert("¡Reserva confirmada con éxito! El pago está retenido hasta tu ingreso.");
-
-      // Cerramos modal, limpiamos fechas y volvemos al buscador
-      setModalReserva(null);
-      // Notificación de Reserva
-      enviarNotificacion(modalReserva.propietarioId, "Nueva Reserva Temporal", `¡Han reservado tu propiedad! Estadía desde el ${modalReserva.fechaInicio} hasta el ${modalReserva.fechaFin}.`);
-      setDatosReserva({ fechaInicio: '', fechaFin: '' });
-      setVistaActual('buscador');
-
-    } catch (error) {
-      alert("El pago se procesó, pero hubo un error al crear la reserva: " + error.message);
-      console.error(error);
-    }
-  };
-
 
 
   // Manejador para Recuperación de Contraseña (RF34)
@@ -2160,7 +2253,12 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
               </button>
             )}
 
-            <button className="font-medium px-5 py-2.5 rounded-full transition-all duration-200 text-rose-600 hover:bg-rose-50" onClick={() => { setUsuarioLogueado(null); setVistaActual('inicio'); }}>
+            <button className="font-medium px-5 py-2.5 rounded-full transition-all duration-200 text-rose-600 hover:bg-rose-50" onClick={() => {
+                                                                                                          localStorage.removeItem('zenith_usuario_logueado');
+                                                                                                          localStorage.removeItem('zenith_pago_pendiente');
+                                                                                                          setUsuarioLogueado(null);
+                                                                                                          setVistaActual('inicio');
+                                                                                                        }}>
               Salir
             </button>
           </>
@@ -2380,7 +2478,12 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
                 <button
                   type="button"
                   className="btn-cerrar-sesion-perfil btn-full"
-                  onClick={() => { setUsuarioLogueado(null); setVistaActual('inicio'); }}
+                  onClick={() => {
+                        localStorage.removeItem('zenith_usuario_logueado');
+                        localStorage.removeItem('zenith_pago_pendiente');
+                        setUsuarioLogueado(null);
+                        setVistaActual('inicio');
+                      }}
                 >
                   Cerrar Sesión
                 </button>
@@ -3011,10 +3114,30 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
               </h3>
 
               <div className="mt-20">
-                <CheckoutBrick
-                  precioAPagar={modalPago.cuotaSeleccionada.montoTotal}
-                  onPaymentSuccess={registrarPagoExitoso}
-                />
+               <CheckoutBrick
+  precioAPagar={modalPago.cuotaSeleccionada.montoTotal}
+  titulo={modalPago.cuotaSeleccionada.concepto}
+  descripcion={`Pago de alquiler - ${modalPago.cuotaSeleccionada.concepto}`}
+  payerEmail={usuarioLogueado.email}
+  externalReference={`cuota_${modalPago.id}_${modalPago.cuotaSeleccionada.numero}_${Date.now()}`}
+  metadata={{
+    tipo: 'cuota',
+    contratoId: modalPago.id,
+    cuotaNumero: modalPago.cuotaSeleccionada.numero,
+  }}
+  pendingPayment={{
+    tipo: 'cuota',
+    contratoId: modalPago.id,
+    propietarioId: modalPago.propietarioId,
+    cuota: modalPago.cuotaSeleccionada,
+    usuario: {
+      id: usuarioLogueado.id,
+      dni: usuarioLogueado.dni,
+      nombre: usuarioLogueado.nombre,
+      email: usuarioLogueado.email,
+    },
+  }}
+/>
 
                 <button type="button" className="btn-link btn-cancelar-mp-gris" onClick={() => setModalPago(null)}>
                   Cancelar / Cerrar
@@ -4133,10 +4256,27 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
 
               <div className="modal-body-mp">
                 <CheckoutBrick
-                  precioAPagar={modalReserva.precioTotal}
-                  onPaymentSuccess={registrarReservaExitosa}
-                />
-
+  precioAPagar={modalReserva.precioTotal}
+  titulo="Reserva temporal Zenith"
+  descripcion={`Reserva temporal del ${modalReserva.fechaInicio} al ${modalReserva.fechaFin}`}
+  payerEmail={usuarioLogueado.email}
+  externalReference={`reserva_${modalReserva.propiedadId}_${usuarioLogueado.dni}_${Date.now()}`}
+  metadata={{
+    tipo: 'reserva',
+    propiedadId: modalReserva.propiedadId,
+    propietarioId: modalReserva.propietarioId,
+  }}
+  pendingPayment={{
+    tipo: 'reserva',
+    reserva: modalReserva,
+    usuario: {
+      id: usuarioLogueado.id,
+      dni: usuarioLogueado.dni,
+      nombre: usuarioLogueado.nombre,
+      email: usuarioLogueado.email,
+    },
+  }}
+/>
                 <button type="button" className="btn-link btn-cancelar-mp" onClick={() => setModalReserva(null)}>
                   Cancelar
                 </button>
