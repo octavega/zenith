@@ -147,6 +147,74 @@ const CalendarioOcupacion = ({ propiedadId, contratos, reservas }) => {
   );
 };
 
+const estadosReservaOcupada = ['Confirmada', 'Pendiente', 'Pagada', 'Aprobada'];
+
+const normalizarFecha = (valor) => {
+  if (!valor) return null;
+
+  const fecha = valor instanceof Date
+    ? new Date(valor)
+    : new Date(`${valor}T00:00:00`);
+
+  fecha.setHours(0, 0, 0, 0);
+  return fecha;
+};
+
+const fechaAInput = (date) => {
+  if (!date) return '';
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
+const verificarDisponibilidadReservaSupabase = async (propiedadId, fechaInicio, fechaFin) => {
+  const inicioNuevo = normalizarFecha(fechaInicio);
+  const finNuevo = normalizarFecha(fechaFin);
+
+  if (!inicioNuevo || !finNuevo) return false;
+  if (finNuevo < inicioNuevo) return false;
+
+  const { data: reservasBD, error: errorReservas } = await supabase
+    .from('reservas')
+    .select('fecha_inicio, fecha_fin, estado')
+    .eq('propiedad_id', propiedadId)
+    .in('estado', estadosReservaOcupada);
+
+  if (errorReservas) {
+    console.error('Error al verificar reservas:', errorReservas.message);
+    return false;
+  }
+
+  const { data: contratosBD, error: errorContratos } = await supabase
+    .from('contratos')
+    .select('fecha_inicio, fecha_fin, estado')
+    .eq('propiedad_id', propiedadId)
+    .eq('estado', 'activo');
+
+  if (errorContratos) {
+    console.error('Error al verificar contratos:', errorContratos.message);
+    return false;
+  }
+
+  const hayCruceReserva = (reservasBD || []).some(reserva => {
+    const inicioExistente = normalizarFecha(reserva.fecha_inicio);
+    const finExistente = normalizarFecha(reserva.fecha_fin);
+
+    return inicioNuevo <= finExistente && finNuevo >= inicioExistente;
+  });
+
+  const hayCruceContrato = (contratosBD || []).some(contrato => {
+    const inicioExistente = normalizarFecha(contrato.fecha_inicio);
+    const finExistente = normalizarFecha(contrato.fecha_fin);
+
+    return inicioNuevo <= finExistente && finNuevo >= inicioExistente;
+  });
+
+  return !hayCruceReserva && !hayCruceContrato;
+};
 
 function App() {
 
@@ -300,6 +368,55 @@ useEffect(() => {
   const [reservas, setReservas] = useState([]);
 
 
+
+const obtenerRangosOcupados = (propiedadId) => {
+  const rangosContratos = contratos
+    .filter(c =>
+      String(c.propiedadId) === String(propiedadId) &&
+      c.estado === 'activo'
+    )
+    .map(c => ({
+      inicio: normalizarFecha(c.fechaInicio),
+      fin: normalizarFecha(c.fechaFin)
+    }));
+
+  const rangosReservas = reservas
+    .filter(r =>
+      String(r.propiedadId) === String(propiedadId) &&
+      estadosReservaOcupada.includes(r.estado)
+    )
+    .map(r => ({
+      inicio: normalizarFecha(r.fechaInicio),
+      fin: normalizarFecha(r.fechaFin)
+    }));
+
+  return [...rangosContratos, ...rangosReservas];
+};
+
+const fechaEstaOcupada = (fecha, propiedadId) => {
+  const dia = normalizarFecha(fecha);
+
+  return obtenerRangosOcupados(propiedadId).some(rango =>
+    dia >= rango.inicio && dia <= rango.fin
+  );
+};
+
+const rangoEstaDisponible = (propiedadId, fechaInicio, fechaFin) => {
+  const inicioNuevo = normalizarFecha(fechaInicio);
+  const finNuevo = normalizarFecha(fechaFin);
+
+  if (!inicioNuevo || !finNuevo) return false;
+  if (finNuevo < inicioNuevo) return false;
+
+  const hayCruce = obtenerRangosOcupados(propiedadId).some(rango =>
+    inicioNuevo <= rango.fin && finNuevo >= rango.inicio
+  );
+
+  return !hayCruce;
+};
+
+
+
 useEffect(() => {
   const procesarRetornoMercadoPago = async () => {
     const params = new URLSearchParams(window.location.search);
@@ -412,6 +529,20 @@ useEffect(() => {
 
       if (pagoPendiente.tipo === 'reserva') {
         const reserva = pagoPendiente.reserva;
+
+                  const disponible = await verificarDisponibilidadReservaSupabase(
+                        reserva.propiedadId,
+                        reserva.fechaInicio,
+                        reserva.fechaFin
+                      );
+
+                      if (!disponible) {
+                        localStorage.removeItem('zenith_pago_pendiente');
+                        alert('El pago fue aprobado, pero esas fechas ya fueron reservadas por otra persona. Debe revisarse el reembolso manualmente.');
+                        setVistaActual('mis-alquileres');
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        return;
+                      }
 
         const nuevaReservaDB = {
           propiedad_id: reserva.propiedadId,
@@ -617,6 +748,51 @@ useEffect(() => {
 
     fetchDatosAlquiler();
   }, [usuarioLogueado, vistaActual]);
+
+
+  useEffect(() => {
+  const liberarReservasPorCheckIn = async () => {
+    if (!reservas || reservas.length === 0) return;
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const reservasParaLiberar = reservas.filter(reserva => {
+      const fechaInicio = new Date(reserva.fechaInicio + 'T00:00:00');
+      fechaInicio.setHours(0, 0, 0, 0);
+
+      return (
+        reserva.estado === 'Confirmada' &&
+        reserva.estadoPago === 'Retenido' &&
+        fechaInicio <= hoy
+      );
+    });
+
+    if (reservasParaLiberar.length === 0) return;
+
+    const idsParaLiberar = reservasParaLiberar.map(reserva => reserva.id);
+
+    const { error } = await supabase
+      .from('reservas')
+      .update({ estado_pago: 'Liberado' })
+      .in('id', idsParaLiberar);
+
+    if (error) {
+      console.error('Error al liberar fondos por check-in:', error.message);
+      return;
+    }
+
+    setReservas(prev =>
+      prev.map(reserva =>
+        idsParaLiberar.includes(reserva.id)
+          ? { ...reserva, estadoPago: 'Liberado' }
+          : reserva
+      )
+    );
+  };
+
+  liberarReservasPorCheckIn();
+}, [reservas]);
 
   // NUEVO: Descargar el historial de Chats desde Supabase
   useEffect(() => {
@@ -1056,19 +1232,29 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
 
   // CORREGIDO: Ahora guarda los ARCHIVOS FÍSICOS reales, no URLs temporales
   const handleInmuebleFile = (e) => {
-    const { name, files } = e.target;
+  const { name, files } = e.target;
 
-    if (files && files.length > 0) {
-      if (name === 'fotos') {
-        // Guardamos el Array de archivos físicos para que Supabase los pueda subir
-        setDatosInmueble({ ...datosInmueble, fotos: Array.from(files) });
-        console.log("Archivos de fotos listos para la nube");
-      } else {
-        // Para la escritura
-        setDatosInmueble({ ...datosInmueble, [name]: Array.from(files) });
-      }
+  if (files && files.length > 0) {
+    const archivosNuevos = Array.from(files);
+
+    if (name === 'fotos') {
+      setDatosInmueble(prev => ({
+        ...prev,
+        fotos: [
+          ...(prev.fotos || []),
+          ...archivosNuevos
+        ]
+      }));
+
+      console.log("Archivos de fotos agregados para la nube");
+    } else {
+      setDatosInmueble(prev => ({
+        ...prev,
+        [name]: archivosNuevos
+      }));
     }
-  };
+  }
+};
 
   // NUEVA FUNCIÓN: Mueve la foto seleccionada al principio del arreglo
   const handleSetPortada = (index) => {
@@ -1123,7 +1309,7 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
       const { fotos, escritura, fotosViejas, escrituraVieja, ...datosSinArchivos } = datosInmueble;
 
       // En vez de arrancar vacíos, arrancamos con lo que ya tenías en la base de datos
-      let urlsFotos = fotosViejas || [];
+      let urlsFotos = [...(fotosViejas || [])];
       let urlEscritura = escrituraVieja || null;
 
       // 2. SUBIR ESCRITURA (Privada/Validación)
@@ -1144,24 +1330,23 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
 
       // 3. SUBIR FOTOS MÚLTIPLES (Públicas)
       if (fotos && fotos.length > 0) {
-        urlsFotos = [];
-        // Hacemos un loop para subir cada foto una por una
-        for (let i = 0; i < fotos.length; i++) {
-          const foto = fotos[i];
-          const nombreFoto = `foto_${Date.now()}_${foto.name}`;
+  // NO vaciamos urlsFotos, porque ya contiene las fotos viejas
+  for (let i = 0; i < fotos.length; i++) {
+    const foto = fotos[i];
+    const nombreFoto = `foto_${Date.now()}_${foto.name}`;
 
-          const { error: errFoto } = await supabase.storage
-            .from('propiedades')
-            .upload(nombreFoto, foto);
+    const { error: errFoto } = await supabase.storage
+      .from('propiedades')
+      .upload(nombreFoto, foto);
 
-          if (errFoto) throw errFoto;
+    if (errFoto) throw errFoto;
 
-          // Rescatamos el link de esta foto en particular y lo metemos en nuestra lista
-          const urlFoto = supabase.storage.from('propiedades').getPublicUrl(nombreFoto).data.publicUrl;
-          urlsFotos.push(urlFoto);
-        }
-        console.log("✅ Fotos subidas:", urlsFotos);
-      }
+    const urlFoto = supabase.storage.from('propiedades').getPublicUrl(nombreFoto).data.publicUrl;
+    urlsFotos.push(urlFoto);
+  }
+
+  console.log("✅ Fotos finales:", urlsFotos);
+}
 
       console.log("Archivos listos. Guardando propiedad en la base de datos...");
 
@@ -1461,7 +1646,7 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
     console.log("Enviando usuario a Supabase...");
 
     // 2. Insertamos la fila en la tabla usando tu estado formData
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('usuarios')
       .insert([
         {
@@ -1490,7 +1675,7 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
   };
 
   // GESTIÓN DE USUARIOS (Dar de baja / Reactivar con EFECTO CASCADA)
-  const handleToggleEstadoUsuario = async (id, estadoActual, emailUsuario) => {
+  const handleToggleEstadoUsuario = async (id, estadoActual) => {
     const nuevoEstado = estadoActual === 'activo' ? 'inactivo' : 'activo';
     const accion = nuevoEstado === 'inactivo' ? 'dado de baja' : 'reactivado';
 
@@ -1722,6 +1907,38 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
     await supabase.from('notificaciones').update({ leida: true }).eq('usuario_id', usuarioLogueado.id);
   };
 
+useEffect(() => {
+  const borrarNotificacionesVistas = async () => {
+    if (!usuarioLogueado) return;
+    if (vistaActual === 'notificaciones') return;
+
+    const notificacionesVistas = notificaciones.filter(noti =>
+      String(noti.usuario_id) === String(usuarioLogueado.id) &&
+      noti.leida === true
+    );
+
+    if (notificacionesVistas.length === 0) return;
+
+    const idsParaBorrar = notificacionesVistas.map(noti => noti.id);
+
+    const { error } = await supabase
+      .from('notificaciones')
+      .delete()
+      .in('id', idsParaBorrar);
+
+    if (error) {
+      console.error('Error al borrar notificaciones vistas:', error.message);
+      return;
+    }
+
+    setNotificaciones(prev =>
+      prev.filter(noti => !idsParaBorrar.includes(noti.id))
+    );
+  };
+
+  borrarNotificacionesVistas();
+}, [vistaActual, usuarioLogueado, notificaciones]);
+
   // Iniciar un nuevo chat desde una propiedad (RF17)
   const handleConsultar = async (propiedadId) => {
 
@@ -1896,8 +2113,12 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
 
     // 4. Notificamos al dueño
     if (emailRealDueño) {
-      enviarNotificacion(propiedad.propietario_id, "Problema Reportado", `Tu inquilino ha reportado un problema: "${descripcion}"`);
-    }
+  enviarNotificacion(
+    modalProblema.propietarioId,
+    "Problema Reportado",
+    `Tu inquilino ha reportado un problema: "${descripcion}"`
+  );
+}
 
     alert("Problema reportado con éxito. El propietario ha sido notificado.");
     setModalProblema(null);
@@ -2226,8 +2447,21 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
                 </button>
 
                 {usuarioLogueado.rol !== 'propietario' && (
-                  <button className={`font-medium px-5 py-2.5 rounded-full transition-all duration-200 hidden md:inline-block ${vistaActual === 'mensajes' ? 'bg-rose-50 text-primary' : 'text-muted hover:bg-gray-100 hover:text-ink'}`} onClick={() => setVistaActual('mensajes')}>
+                  <button
+                    className={`font-medium px-5 py-2.5 rounded-full transition-all duration-200 hidden md:inline-block relative ${
+                      vistaActual === 'mensajes'
+                        ? 'bg-rose-50 text-primary'
+                        : 'text-muted hover:bg-gray-100 hover:text-ink'
+                    }`}
+                    onClick={() => setVistaActual('mensajes')}
+                  >
                     Mensajes
+
+                    {notificacionesMensajes > 0 && (
+                      <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-primary text-white text-[11px] rounded-full flex items-center justify-center">
+                        {notificacionesMensajes}
+                      </span>
+                    )}
                   </button>
                 )}
 
@@ -4091,9 +4325,20 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
                       <div className="reserva-input-group datepicker-wrapper-full">
                         <label>Llegada</label>
                         <DatePicker
-                          selected={datosReserva.fechaInicio ? new Date(datosReserva.fechaInicio + 'T00:00:00') : null}
-                          onChange={(date) => setDatosReserva({ ...datosReserva, fechaInicio: date ? date.toISOString().split('T')[0] : '' })}
-                          selectsStart
+                              selected={datosReserva.fechaInicio ? new Date(datosReserva.fechaInicio + 'T00:00:00') : null}
+                              onChange={(date) => {
+                                if (date && fechaEstaOcupada(date, prop.id)) {
+                                  alert('Esa fecha ya está ocupada.');
+                                  return;
+                                }
+
+                                setDatosReserva({
+                                  ...datosReserva,
+                                  fechaInicio: date ? fechaAInput(date) : ''
+                                });
+                              }}
+                              filterDate={(date) => !fechaEstaOcupada(date, prop.id)}
+                              selectsStart
                           startDate={datosReserva.fechaInicio ? new Date(datosReserva.fechaInicio + 'T00:00:00') : null}
                           endDate={datosReserva.fechaFin ? new Date(datosReserva.fechaFin + 'T00:00:00') : null}
                           minDate={new Date()} /* Evita reservas en el pasado */
@@ -4108,7 +4353,18 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
                         <label>Salida</label>
                         <DatePicker
                           selected={datosReserva.fechaFin ? new Date(datosReserva.fechaFin + 'T00:00:00') : null}
-                          onChange={(date) => setDatosReserva({ ...datosReserva, fechaFin: date ? date.toISOString().split('T')[0] : '' })}
+                          onChange={(date) => {
+                            if (date && fechaEstaOcupada(date, prop.id)) {
+                              alert('Esa fecha ya está ocupada.');
+                              return;
+                            }
+
+                            setDatosReserva({
+                              ...datosReserva,
+                              fechaFin: date ? fechaAInput(date) : ''
+                            });
+                          }}
+                          filterDate={(date) => !fechaEstaOcupada(date, prop.id)}
                           selectsEnd
                           startDate={datosReserva.fechaInicio ? new Date(datosReserva.fechaInicio + 'T00:00:00') : null}
                           endDate={datosReserva.fechaFin ? new Date(datosReserva.fechaFin + 'T00:00:00') : null}
@@ -4165,25 +4421,47 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
                             </button>
 
                             <button
-                              className="btn-submit btn-reservar-mp btn-reservar-mp-premium"
-                              onClick={() => {
-                                if (!usuarioLogueado) {
-                                  alert("Debes iniciar sesión o registrarte para poder reservar.");
-                                  setVistaActual('login');
-                                  return;
-                                }
-                                setModalReserva({
-                                  propiedadId: prop.id,
-                                  propietarioId: propietarioId,
-                                  fechaInicio: datosReserva.fechaInicio,
-                                  fechaFin: datosReserva.fechaFin,
-                                  cantidadDias: cantidadDias,
-                                  precioTotal: precioTotalCalculado
-                                });
-                              }}
-                            >
-                              💳 Reservar y Pagar
-                            </button>
+                                className="btn-submit btn-reservar-mp btn-reservar-mp-premium"
+                                onClick={async () => {
+                                  if (!usuarioLogueado) {
+                                    alert("Debes iniciar sesión o registrarte para poder reservar.");
+                                    setVistaActual('login');
+                                    return;
+                                  }
+
+                                  if (!datosReserva.fechaInicio || !datosReserva.fechaFin) {
+                                    alert("Debes seleccionar fecha de llegada y salida.");
+                                    return;
+                                  }
+
+                                  if (!rangoEstaDisponible(prop.id, datosReserva.fechaInicio, datosReserva.fechaFin)) {
+                                    alert("Las fechas seleccionadas ya están ocupadas.");
+                                    return;
+                                  }
+
+                                  const disponible = await verificarDisponibilidadReservaSupabase(
+                                    prop.id,
+                                    datosReserva.fechaInicio,
+                                    datosReserva.fechaFin
+                                  );
+
+                                  if (!disponible) {
+                                    alert("Las fechas seleccionadas ya no están disponibles.");
+                                    return;
+                                  }
+
+                                  setModalReserva({
+                                    propiedadId: prop.id,
+                                    propietarioId: propietarioId,
+                                    fechaInicio: datosReserva.fechaInicio,
+                                    fechaFin: datosReserva.fechaFin,
+                                    cantidadDias: cantidadDias,
+                                    precioTotal: precioTotalCalculado
+                                  });
+                                }}
+                              >
+                                💳 Reservar y Pagar
+                              </button>
                           </div>
                         )}
                       </>
@@ -4941,28 +5219,36 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
 
     // Funciones exclusivas del Admin (Conectadas a Supabase)
     const procesarSolicitud = async (id, accion, emailUsuario) => {
-      const nuevoRol = accion === 'Aprobada' ? 'propietario' : 'inquilino';
-      const nuevoEstado = accion === 'Aprobada' ? 'aprobado' : 'rechazado';
+  const nuevoRol = accion === 'Aprobada' ? 'propietario' : 'inquilino';
+  const nuevoEstado = accion === 'Aprobada' ? 'aprobado' : 'rechazado';
 
-      const { error } = await supabase
-        .from('usuarios')
-        .update({
-          rol: nuevoRol,
-          estado_verificacion: nuevoEstado
-        })
-        .eq('email', emailUsuario);
+  const { error } = await supabase
+    .from('usuarios')
+    .update({
+      rol: nuevoRol,
+      estado_verificacion: nuevoEstado
+    })
+    .eq('email', emailUsuario);
 
-      if (error) {
-        alert("Error al procesar: " + error.message);
-      } else {
-        enviarNotificacion(idUsuario, "Actualización de cuenta", `Tu solicitud para ser propietario ha sido ${accion}.`);
-        alert(`¡Usuario ${accion} correctamente!`);
+  if (error) {
+    alert("Error al procesar: " + error.message);
+  } else {
+    enviarNotificacion(
+      id,
+      "Actualización de cuenta",
+      `Tu solicitud para ser propietario ha sido ${accion}.`
+    );
 
-        // Refrescar la tablita del admin instantáneamente
-        const { data } = await supabase.from('usuarios').select('*').eq('estado_verificacion', 'pendiente');
-        setSolicitudesPropietarios(data || []);
-      }
-    };
+    alert(`¡Usuario ${accion} correctamente!`);
+
+    const { data } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('estado_verificacion', 'pendiente');
+
+    setSolicitudesPropietarios(data || []);
+  }
+};
 
     // RF29: Búsqueda dinámica de usuarios por Nombre, Apellido o Email
     const usuariosFiltrados = usuarios.filter(u =>
@@ -5056,7 +5342,7 @@ ${infoPago.mensajePie || 'El pago ya fue acreditado en la cuenta correspondiente
                         <button
                           className={estadoLimpio === 'activo' ? "btn-danger" : "btn-submit"}
                           style={{ padding: '5px 10px', margin: 0, backgroundColor: estadoLimpio === 'inactivo' ? '#27ae60' : '' }}
-                          onClick={() => handleToggleEstadoUsuario(user.id, estadoLimpio, user.email)}
+                          onClick={() => handleToggleEstadoUsuario(user.id, estadoLimpio)}
                         >
                           {estadoLimpio === 'activo' ? '🗑️ Suspender' : '✅ Reactivar'}
                         </button>
