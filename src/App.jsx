@@ -3244,15 +3244,23 @@ useEffect(() => {
                 {misReservasTemporales.map(reserva => {
                   const propInfo = propiedades.find(p => p.id === reserva.propiedadId) || { titulo: 'Propiedad no encontrada' };
 
-                  // Verificamos si la estadía ya terminó automáticamente
-                  const hoy = new Date();
-                  hoy.setHours(0, 0, 0, 0);
-                  const fin = new Date(reserva.fechaFin + 'T00:00:00');
+                 // Verificamos el estado visual según las fechas
+                      const hoy = new Date();
+                      hoy.setHours(0, 0, 0, 0);
 
-                  let estadoVisual = reserva.estado;
-                  if (estadoVisual === 'Confirmada' && hoy > fin) {
-                    estadoVisual = 'Finalizada';
-                  }
+                      const inicio = new Date(reserva.fechaInicio + 'T00:00:00');
+                      inicio.setHours(0, 0, 0, 0);
+
+                      const fin = new Date(reserva.fechaFin + 'T00:00:00');
+                      fin.setHours(0, 0, 0, 0);
+
+                      let estadoVisual = reserva.estado;
+
+                      if (estadoVisual === 'Confirmada' && hoy > fin) {
+                        estadoVisual = 'Finalizada';
+                      } else if (estadoVisual === 'Confirmada' && hoy >= inicio && hoy <= fin) {
+                        estadoVisual = 'Activa';
+                      }
 
                   return (
                     <div key={reserva.id} className={`propiedad-card reserva-card-item ${estadoVisual === 'Cancelada' || estadoVisual === 'Finalizada' ? 'inactiva' : ''}`}>
@@ -3302,15 +3310,20 @@ useEffect(() => {
                           <strong>¡Estadía finalizada!</strong> Esperamos que la hayas pasado excelente.
                         </div>
                       )}
+                      {estadoVisual === 'Activa' && (
+                      <div className="reserva-mensaje-finalizada">
+                        <strong>Reserva activa.</strong> La estadía ya comenzó, por eso no puede cancelarse.
+                      </div>
+                    )}
 
-                      {estadoVisual === 'Confirmada' && (
-                        <button
-                          className="btn-submit btn-cancelar-reserva"
-                          onClick={() => handleCancelarReserva(reserva)}
-                        >
-                          ❌ Cancelar Reserva
-                        </button>
-                      )}
+                     {estadoVisual === 'Confirmada' && hoy < inicio && (
+                    <button
+                      className="btn-submit btn-cancelar-reserva"
+                      onClick={() => handleCancelarReserva(reserva)}
+                    >
+                      ❌ Cancelar Reserva
+                    </button>
+                  )}
 
                     </div>
                   );
